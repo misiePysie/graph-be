@@ -13,7 +13,6 @@ public class GraphApplication {
         SpringApplication.run(GraphApplication.class, args);
 
 
-        try{
         ReadFiles importFiles=new ReadFiles();
         importFiles.listAllFilesNames();
         importFiles.listAllFilesNames().forEach(System.out::println);
@@ -21,10 +20,6 @@ public class GraphApplication {
         //ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
 
 
-    }
-        catch(IOException e){
-            System.out.println(e.getStackTrace());
-        }
     }
 
     // test
