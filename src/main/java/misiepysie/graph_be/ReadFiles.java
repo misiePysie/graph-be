@@ -14,12 +14,12 @@ public class ReadFiles {
 
     private static List<SourceFile> listOfSourceFiles;
 
+    public ReadFiles() throws IOException {
+    }
+
     public static void createNodeForEachFile() {
-
         listOfSourceFiles = new ArrayList<SourceFile>();
-
-        for (int i = 0; i < 1 ; i++) {
-
+        for (int i = 0; i < listAllFilesNames().size(); i++) {
             SourceFile sf = new SourceFile(listAllFilesNames().get(i),getSize(i),connectionsOfFiles(listAllFilesNames()));
             getListOfSourceFiles().add(sf);
         }
@@ -29,13 +29,16 @@ public class ReadFiles {
 
     public static List<String> listAllFilesNames() {
 
-        try (Stream<Path> walk = Files.walk(Paths.get("/Users/dominikstrama/graph-be/src"))) { //todo: add the path of current directory
+        try (
+                Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir")+"\\src"))) { //todo: add the path of current directory
 
-            List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            List<String> result = walk.filter(Files::isRegularFile)
+                    .map(x -> x.toString()).collect(Collectors.toList());
             //set list of files as an already read directory
 
-            return result;
 
+            result.forEach(System.out::println);
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,26 +46,26 @@ public class ReadFiles {
     }
 
     public static String connectionsOfFiles(List<String> listOfFiles) {
-        System.out.println("");
-        String returnstatement="";
-        try {
-            for(int i=0; i<listOfFiles.size(); i++){
-                System.out.println(listOfFiles.get(i) + "\n" + getSize(i));
+        System.out.println("\n\n");
+        for (int i = 0; i < listOfFiles.size(); i++) {
+            try {
+
                 Stream<String> lines = Files.lines(Paths.get(listOfFiles.get(i)));
+                System.out.println("\n" + listOfFiles.get(i) + "\n" + getSize(i));
+
                 List<String> content = lines.collect(Collectors.toList());
-                StringBuilder s = new StringBuilder("\nImports:");
+                StringBuilder s=new StringBuilder("\nImports: ");
                 content.forEach(x -> s.append(searchImports(x)));
                 s.append("\nIncludes:");
                 content.forEach(x -> s.append(searchIncludes(x)));
                 s.append("\nUsings:");
                 content.forEach(x -> s.append(searchUsings(x)));
-                returnstatement = s.toString();
-                System.out.println(returnstatement);
+
+                return s.toString();
+
+            } catch (IOException e) {
+                System.err.format("IOException: %s%n", e);
             }
-            return returnstatement;
-        }
-        catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
         }
         return null;
     }
@@ -72,7 +75,7 @@ public class ReadFiles {
         if (line.startsWith("import")) {
             return line;
         }
-        else return null + " ";
+        else return null;
     }
 
     public static String searchIncludes(String line) {
@@ -80,7 +83,7 @@ public class ReadFiles {
         if (line.startsWith("#include")) {
             return line;
         }
-        else return null + " ";
+        else return null;
     }
 
     public static String searchUsings(String line) {
@@ -88,11 +91,10 @@ public class ReadFiles {
         if (line.startsWith("using")) {
             return line;
         }
-        else return null + " ";
+        else return null;
     }
 
     public static String getSize(int i) {
-
         File f = new File(listAllFilesNames().get(i));
         if (!f.exists() || !f.isFile()) {
             return ("there is no file in this path");
