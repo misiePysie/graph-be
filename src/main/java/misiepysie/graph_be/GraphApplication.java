@@ -11,8 +11,11 @@ public class GraphApplication {
 
         ReadFiles importFiles=new ReadFiles();
         importFiles.listAllFilesNames();
+        importFiles.listAllFilesNames().forEach(System.out::println);
         ReadFiles.createNodeForEachFile();
-        ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
+        //ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
+
+
     }
 
     // test
