@@ -11,7 +11,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ReadFiles {
+
     private static List<SourceFile> listOfSourceFiles;
+
+    public ReadFiles() throws IOException {
+    }
 
     public static void createNodeForEachFile() {
         listOfSourceFiles = new ArrayList<SourceFile>();
@@ -26,7 +30,7 @@ public class ReadFiles {
     public static List<String> listAllFilesNames() {
 
         try (
-                Stream<Path> walk = Files.walk(Paths.get("F:\\Java\\Projects\\MisiePysie\\src"))) { //todo: add the path of current directory
+                Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir")+"\\src"))) { //todo: add the path of current directory
 
             List<String> result = walk.filter(Files::isRegularFile)
                     .map(x -> x.toString()).collect(Collectors.toList());
