@@ -12,13 +12,15 @@ public class GraphApplication {
     public static void main(String[] args) {
         SpringApplication.run(GraphApplication.class, args);
 
-
-        ReadFiles importFiles=new ReadFiles();
-        importFiles.listAllFilesNames();
-        importFiles.listAllFilesNames().forEach(System.out::println);
-        ReadFiles.createNodeForEachFile();
-        //ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
-
+        try{
+            ReadFiles importFiles = new ReadFiles();
+            importFiles.listAllFilesNames().forEach(System.out::println);
+            ReadFiles.createNodeForEachFile();
+            //ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
+        }
+         catch(IOException e){
+            System.out.println(e.getStackTrace());
+        }
 
     }
 

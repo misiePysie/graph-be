@@ -12,13 +12,16 @@ import java.util.stream.Stream;
 
 public class ReadFiles {
 
+    public ReadFiles() throws IOException {
+    }
+
     private static List<SourceFile> listOfSourceFiles;
 
     public static void createNodeForEachFile() {
 
         listOfSourceFiles = new ArrayList<SourceFile>();
 
-        for (int i = 0; i < 1 ; i++) {
+        for (int i = 0; i < listAllFilesNames().size() ; i++) {
 
             SourceFile sf = new SourceFile(listAllFilesNames().get(i),getSize(i),connectionsOfFiles(listAllFilesNames()));
             getListOfSourceFiles().add(sf);
@@ -29,7 +32,7 @@ public class ReadFiles {
 
     public static List<String> listAllFilesNames() {
 
-        try (Stream<Path> walk = Files.walk(Paths.get("/Users/dominikstrama/graph-be/src"))) { //todo: add the path of current directory
+        try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir")+"/src"))) { //todo: add the path of current directory
 
             List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
             //set list of files as an already read directory
