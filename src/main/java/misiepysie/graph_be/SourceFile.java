@@ -2,15 +2,17 @@ package misiepysie.graph_be;
 
 public class SourceFile {
 
-    private double sizeOfFile;
     private String nameOfFile;
+    private double sizeOfFile;
+    private String pathToFile;
     private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
     private int sizeOfCircle;
 
-    SourceFile(String name,double size, String connections)
+    public SourceFile(String path,String name,double size, String connections)
     {
-        sizeOfFile=size;
         nameOfFile=name;
+        sizeOfFile=size;
+        pathToFile=path;
         connectionsOfFile=connections;
 
     }
@@ -23,6 +25,6 @@ public class SourceFile {
 
     @Override
     public String toString() {
-        return this.nameOfFile + "," + this.sizeOfFile + "," + this.connectionsOfFile+","+this.sizeOfCircle+"\n";
+        return this.pathToFile + "," + this.nameOfFile+","+this.sizeOfFile + "," + this.connectionsOfFile+","+this.sizeOfCircle+"\n";
     }
 }
