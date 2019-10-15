@@ -57,19 +57,15 @@ public class ReadFiles {
                 List<String> content = lines.collect(Collectors.toList());
                 StringBuilder s = new StringBuilder("\nImports:");
                 content.forEach(x -> s.append(searchImports(x)));
-                s.append("\nIncludes:");
-                content.forEach(x -> s.append(searchIncludes(x)));
-                s.append("\nUsings:");
-                content.forEach(x -> s.append(searchUsings(x)));
+
                 String returnstatement= s.toString();
                 System.out.println( "\n" + listOfFiles + "\n" + getSizeString(listOfFiles) +"\n");
 
                 int countingImport = countingWordsInString(returnstatement,"import");
-                int countingIncludes = countingWordsInString(returnstatement,"include");
-                int countingUsings = countingWordsInString(returnstatement,"using");
 
-                out.append("Imports:" + countingImport + "Include:" + countingIncludes + "Using:" + countingUsings );
+                out.append("Imports:" + countingImport);
 //              System.out.print("Imports: " + countingImport + " Include: " + countingIncludes + " Using: " + countingUsings);
+          //  System.out.println("Imports:" + countingImport);
 //              System.out.println(returnstatement);
         }
         catch (IOException e) {
@@ -98,21 +94,21 @@ public class ReadFiles {
         else return null + " ";
     }
 
-    public static String searchIncludes(String line) {
-
-        if (line.startsWith("#include")) {
-            return line;
-        }
-        else return null + " ";
-    }
-
-    public static String searchUsings(String line) {
-
-        if (line.startsWith("using")) {
-            return line;
-        }
-        else return null + " ";
-    }
+//    public static String searchIncludes(String line) {
+//
+//        if (line.startsWith("#include")) {
+//            return line;
+//        }
+//        else return null + " ";
+//    }
+//
+//    public static String searchUsings(String line) {
+//
+//        if (line.startsWith("using")) {
+//            return line;
+//        }
+//        else return null + " ";
+//    }
 
     public static double getSize(int i) {
 
