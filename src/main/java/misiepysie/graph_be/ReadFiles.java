@@ -52,7 +52,6 @@ public class ReadFiles {
     public static String connectionsOfFiles(String listOfFiles) {
 
         StringBuilder out = new StringBuilder("");
-        String returnstatement="";
         try {
                 Stream<String> lines = Files.lines(Paths.get(listOfFiles));
                 List<String> content = lines.collect(Collectors.toList());
@@ -62,7 +61,7 @@ public class ReadFiles {
                 content.forEach(x -> s.append(searchIncludes(x)));
                 s.append("\nUsings:");
                 content.forEach(x -> s.append(searchUsings(x)));
-                returnstatement = s.toString();
+                String returnstatement= s.toString();
                 System.out.println( "\n" + listOfFiles + "\n" + getSizeString(listOfFiles) +"\n");
 
                 int countingImport = countingWordsInString(returnstatement,"import");
@@ -70,8 +69,8 @@ public class ReadFiles {
                 int countingUsings = countingWordsInString(returnstatement,"using");
 
                 out.append("Imports:" + countingImport + "Include:" + countingIncludes + "Using:" + countingUsings );
-//                System.out.print("Imports: " + countingImport + " Include: " + countingIncludes + " Using: " + countingUsings);
-//                System.out.println(returnstatement);
+//              System.out.print("Imports: " + countingImport + " Include: " + countingIncludes + " Using: " + countingUsings);
+//              System.out.println(returnstatement);
         }
         catch (IOException e) {
             System.err.format("IOException: %s%n", e);
