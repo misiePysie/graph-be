@@ -8,7 +8,8 @@ import java.util.Arrays;
 @SpringBootApplication
 public class GraphApplication {
 
-    public static String directoryPath;
+    public static String pathBackEnd;
+    public static String pathFrontEnd;
 
     public static void main(String[] args) {
         SpringApplication.run(GraphApplication.class, args);
