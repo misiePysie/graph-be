@@ -2,7 +2,6 @@ package misiepysie.graph_be;
 
 public class SourceFile {
 
-
     private double sizeOfFile;
     private String nameOfFile;
     private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
@@ -21,7 +20,6 @@ public class SourceFile {
     public void setSizeOfCircle(double sizeOfCircle) {
         this.sizeOfCircle = (int)sizeOfCircle;
     }
-
 
     @Override
     public String toString() {

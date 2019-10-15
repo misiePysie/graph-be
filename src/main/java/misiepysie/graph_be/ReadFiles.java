@@ -25,11 +25,13 @@ public class ReadFiles {
 
         listOfSourceFiles = new ArrayList<SourceFile>();
 
+
         for (int i = 0; i < listAllFilesNames().size() ; i++) {
 
             SourceFile sf = new SourceFile(listAllFilesNames().get(i),getSize(i),connectionsOfFiles(listAllFilesNames().get(i)));
             getListOfSourceFiles().add(sf);
         }
+        resizeCircle();
 
     }
 
@@ -59,7 +61,6 @@ public class ReadFiles {
                 content.forEach(x -> s.append(searchImports(x)));
 
                 String returnstatement= s.toString();
-                System.out.println( "\n" + listOfFiles + "\n" );
 
                 int countingImport = countingWordsInString(returnstatement,"import");
 
