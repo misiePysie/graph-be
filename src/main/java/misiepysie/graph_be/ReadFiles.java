@@ -23,9 +23,7 @@ public class ReadFiles {
     private static List<String> listOfFileNames;
 
     public static void createNodeForEachFile() {
-
         listOfSourceFiles = new ArrayList<SourceFile>();
-
 
         for (int i = 0; i < listOfFileNames.size() ; i++) {
 
@@ -33,9 +31,7 @@ public class ReadFiles {
             getListOfSourceFiles().add(sf);
         }
         resizeCircle();
-
     }
-
 
     public static List<String> listAllFilesNames(String path ) {
 
@@ -53,7 +49,6 @@ public class ReadFiles {
     }
 
     public static String connectionsOfFiles(String listOfFiles) {
-
         StringBuilder out = new StringBuilder("");
         try {
                 Stream<String> lines = Files.lines(Paths.get(listOfFiles));
@@ -75,7 +70,6 @@ public class ReadFiles {
     }
 
     public static int countingWordsInString(String descriptionFile, String keyWord ){
-
         int j = 0;
         Pattern p = Pattern.compile(keyWord);
         Matcher m = p.matcher( descriptionFile );
@@ -86,26 +80,21 @@ public class ReadFiles {
     }
 
     public static String searchImports(String line) {
-
         if (line.startsWith("import")) {
             return line;
         }
         else return null + " ";
     }
 
-
     public static double getSize(int i) {
-
         File f = new File(listOfFileNames.get(i));
         return f.length();
     }
-    public static String getName(String path)
-    {
+
+    public static String getName(String path) {
         File f=new File(path);
         return f.getName();
     }
-
-
 
     private static void resizeCircle()
     {
@@ -128,13 +117,8 @@ public class ReadFiles {
 
     }
 
-
-
     public static List<SourceFile> getListOfSourceFiles() {
         return listOfSourceFiles;
     }
-
-
-
 
 }
