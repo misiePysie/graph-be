@@ -6,29 +6,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ReadFiles {
+public class AnalyzeFile {
 
-    public ReadFiles() throws IOException {
+    public AnalyzeFile() throws IOException {
     }
 
-    private static List<SourceFile> listOfSourceFiles;
+    private static List<Node> listOfNodes;
     private static List<String> listOfFileNames;
 
     public static void createNodeForEachFile() {
-        listOfSourceFiles = new ArrayList<SourceFile>();
+        listOfNodes = new ArrayList<Node>();
 
         for (int i = 0; i < listOfFileNames.size() ; i++) {
 
-            SourceFile sf = new SourceFile(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
-            getListOfSourceFiles().add(sf);
+            Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
+            getListOfNodes().add(sf);
         }
         resizeCircle();
     }
@@ -100,25 +98,25 @@ public class ReadFiles {
     {
         double max=-1;
         int index=-1;
-        for (int i=0;i<listOfSourceFiles.size();i++)
+        for (int i = 0; i< listOfNodes.size(); i++)
         {
-            if(listOfSourceFiles.get(i).getSizeOfFile()>max) {
-                max = listOfSourceFiles.get(i).getSizeOfFile();
+            if(listOfNodes.get(i).getSizeOfFile()>max) {
+                max = listOfNodes.get(i).getSizeOfFile();
                 index = i;
             }
         }
-        listOfSourceFiles.get(index).setSizeOfCircle(100);
+        listOfNodes.get(index).setSizeOfCircle(100);
         double val=0;
-        for(int i=0;i<listOfSourceFiles.size();i++)
+        for(int i = 0; i< listOfNodes.size(); i++)
         {
-            val=(listOfSourceFiles.get(i).getSizeOfFile()*100)/max;
-            listOfSourceFiles.get(i).setSizeOfCircle(val);
+            val=(listOfNodes.get(i).getSizeOfFile()*100)/max;
+            listOfNodes.get(i).setSizeOfCircle(val);
         }
 
     }
 
-    public static List<SourceFile> getListOfSourceFiles() {
-        return listOfSourceFiles;
+    public static List<Node> getListOfNodes() {
+        return listOfNodes;
     }
 
 }

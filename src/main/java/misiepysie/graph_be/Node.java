@@ -1,6 +1,6 @@
 package misiepysie.graph_be;
 
-public class SourceFile {
+public class Node {
 
     private String nameOfFile;
     private double sizeOfFile;
@@ -8,7 +8,7 @@ public class SourceFile {
     private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
     private int sizeOfCircle;
 
-    public SourceFile(String path,String name,double size, String connections)
+    public Node(String path, String name, double size, String connections)
     {
         nameOfFile=name;
         sizeOfFile=size;
