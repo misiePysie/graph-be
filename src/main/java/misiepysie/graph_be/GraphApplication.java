@@ -13,19 +13,13 @@ public class GraphApplication {
     public static void main(String[] args) {
         SpringApplication.run(GraphApplication.class, args);
 
-        try{
-            ReadFiles importFiles = new ReadFiles();
-            importFiles.listAllFilesNames().forEach(System.out::println);
-            ReadFiles.createNodeForEachFile();
-            ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
 
+            ReadFiles.listAllFilesNames(System.getProperty("user.dir")+"/src");
+            ReadFiles.createNodeForEachFile();
             //to co przesylamy chlopakom, nie musimy tego na razie wyswietlac
             System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
         }
-         catch(IOException e){
-            System.out.println(e.getStackTrace());
-        }
 
-    }
 
 }
+

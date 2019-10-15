@@ -20,15 +20,16 @@ public class ReadFiles {
     }
 
     private static List<SourceFile> listOfSourceFiles;
+    private static List<String> listOfFileNames;
 
     public static void createNodeForEachFile() {
 
         listOfSourceFiles = new ArrayList<SourceFile>();
 
 
-        for (int i = 0; i < listAllFilesNames().size() ; i++) {
+        for (int i = 0; i < listOfFileNames.size() ; i++) {
 
-            SourceFile sf = new SourceFile(listAllFilesNames().get(i),getSize(i),connectionsOfFiles(listAllFilesNames().get(i)));
+            SourceFile sf = new SourceFile(listOfFileNames.get(i),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
             getListOfSourceFiles().add(sf);
         }
         resizeCircle();
@@ -36,13 +37,13 @@ public class ReadFiles {
     }
 
 
-    public static List<String> listAllFilesNames() {
+    public static List<String> listAllFilesNames(String path ) {
 
-        try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir")+"/src"))) { //todo: add the path of current directory
+        try (Stream<Path> walk = Files.walk(Paths.get(path))) { //todo: add the path of current directory
 
             List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
             //set list of files as an already read directory
-
+            listOfFileNames=result;
             return result;
 
         } catch (IOException e) {
@@ -65,9 +66,6 @@ public class ReadFiles {
                 int countingImport = countingWordsInString(returnstatement,"import");
 
                 out.append("Imports:" + countingImport);
-//              System.out.print("Imports: " + countingImport + " Include: " + countingIncludes + " Using: " + countingUsings);
-          //  System.out.println("Imports:" + countingImport);
-//              System.out.println(returnstatement);
         }
         catch (IOException e) {
             System.err.format("IOException: %s%n", e);
@@ -95,26 +93,11 @@ public class ReadFiles {
         else return null + " ";
     }
 
-//    public static String searchIncludes(String line) {
-//
-//        if (line.startsWith("#include")) {
-//            return line;
-//        }
-//        else return null + " ";
-//    }
-//
-//    public static String searchUsings(String line) {
-//
-//        if (line.startsWith("using")) {
-//            return line;
-//        }
-//        else return null + " ";
-//    }
 
     public static double getSize(int i) {
 
 
-        File f = new File(listAllFilesNames().get(i));
+        File f = new File(listOfFileNames.get(i));
         return f.length();
 
     }
