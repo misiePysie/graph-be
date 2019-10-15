@@ -1,8 +1,11 @@
-package misiepysie.graph_be;
+package misiepysie.graph_be.Data;
 
 public class DirectoryPath {
     private String backendSrc;
     private String frontendSrc;
+
+//    public DirectoryPath() {
+//    }
 
     public DirectoryPath(String backend, String frontend){
         this.backendSrc = backend;

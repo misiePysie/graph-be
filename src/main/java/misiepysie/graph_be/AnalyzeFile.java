@@ -1,5 +1,8 @@
 package misiepysie.graph_be;
 
+import misiepysie.graph_be.GraphObjects.Edge;
+import misiepysie.graph_be.GraphObjects.Node;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,8 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -62,7 +63,7 @@ public class AnalyzeFile {
         listOfEdges=new ArrayList<Edge>();
         for (int k = 0; k < listOfNodes.size(); k++) {
             try {
-                Stream<String> lines = Files.lines(Paths.get(listOfNodes.get(k).getPathToFile()));
+                Stream<String> lines = Files.lines(Paths.get(listOfNodes.get(k).getId()));
                 List<String> content = lines.collect(Collectors.toList());
                 String lineWithImport=null;
                 for (int i = 0; i < content.size(); i++) {
@@ -74,7 +75,7 @@ public class AnalyzeFile {
 
                         for (int j = 0; j < listOfNodes.size(); j++) {
 
-                            if (listOfNodes.get(j).getNameOfFile().equals(searchAnotherNode(lineWithImport))) ;
+                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport))) ;
                             node2 = listOfNodes.get(j);
                             edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
                             getListOfEdges().add(edge);
@@ -129,8 +130,8 @@ public class AnalyzeFile {
         int index=-1;
         for (int i = 0; i< listOfNodes.size(); i++)
         {
-            if(listOfNodes.get(i).getSizeOfFile()>max) {
-                max = listOfNodes.get(i).getSizeOfFile();
+            if(listOfNodes.get(i).getFileSize()>max) {
+                max = listOfNodes.get(i).getFileSize();
                 index = i;
             }
         }
@@ -138,8 +139,8 @@ public class AnalyzeFile {
         double val=0;
         for(int i = 0; i< listOfNodes.size(); i++)
         {
-            val=(listOfNodes.get(i).getSizeOfFile()*100)/max;
-            listOfNodes.get(i).setSizeOfCircle(val);
+            val=(listOfNodes.get(i).getFileSize()*100)/max;
+            listOfNodes.get(i).setSize(val);
         }
 
     }
