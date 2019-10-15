@@ -25,7 +25,7 @@ public class AnalyzeFile {
 
         for (int i = 0; i < listOfFileNames.size() ; i++) {
 
-            Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
+            Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i));
             getListOfNodes().add(sf);
         }
         resizeCircle();
@@ -46,25 +46,30 @@ public class AnalyzeFile {
         return null;
     }
 
-    public static String connectionsOfFiles(String listOfFiles) {
-        StringBuilder out = new StringBuilder("");
+    public static Node connectionsOfFiles(String listOfFiles) {
+
         try {
                 Stream<String> lines = Files.lines(Paths.get(listOfFiles));
                 List<String> content = lines.collect(Collectors.toList());
-                StringBuilder s = new StringBuilder("\nImports:");
-                content.forEach(x -> s.append(searchImports(x)));
+                String lineWithImport;
+                for (int i =0;i<content.size();i++){
+                 lineWithImport=searchImports(content.get(i));
+                 countConnections(lineWithImport);
 
-                String returnstatement= s.toString();
+                 for (int j=0;j<listOfNodes.size();j++){
 
-                int countingImport = countingWordsInString(returnstatement,"import");
+                     if(listOfNodes.get(i).getPathToFile().contains( searchAnotherNode(lineWithImport)));
+                     return listOfNodes.get(i);
+                 }
 
-                out.append("Imports:" + countingImport);
+                }
+
         }
         catch (IOException e) {
             System.err.format("IOException: %s%n", e);
             return null;
         }
-        return out.toString();
+        return null;
     }
 
     public static int countingWordsInString(String descriptionFile, String keyWord ){
@@ -118,5 +123,36 @@ public class AnalyzeFile {
     public static List<Node> getListOfNodes() {
         return listOfNodes;
     }
+
+    public Edge createEdge(){
+        Node tempNode;
+        for (int i=0;i<listOfNodes.size();i++ ){
+           tempNode= connectionsOfFiles(listOfNodes.get(i).getPathToFile());
+            Edge edge = new Edge(listOfNodes.get(i),tempNode,);
+
+        }
+    }//TODO
+    public static String searchAnotherNode (String lineWithImport) {
+        String[] splitLine=new String[lineWithImport.length()];
+        if (lineWithImport.contains("\"")) {
+            splitLine = lineWithImport.split(" \" "); //????
+
+        } else if (lineWithImport.contains("\'")) {
+            splitLine = lineWithImport.split(" \' "); //????
+
+        }
+        return splitLine[1];
+    }
+    public static int countConnections(String lineWithImport){
+        int numberOfCommas=0;
+
+        for (int i=0;i<lineWithImport.length();i++){
+            if (lineWithImport.charAt(i)==','){
+                numberOfCommas++;
+            }
+        }
+        return numberOfCommas;
+    }
+
 
 }

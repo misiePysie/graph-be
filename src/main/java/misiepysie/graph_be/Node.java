@@ -5,15 +5,14 @@ public class Node {
     private String nameOfFile;
     private double sizeOfFile;
     private String pathToFile;
-    private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
     private int sizeOfCircle;
 
-    public Node(String path, String name, double size, String connections)
+    public Node(String path, String name, double size)
     {
         nameOfFile=name;
         sizeOfFile=size;
         pathToFile=path;
-        connectionsOfFile=connections;
+
 
     }
     public double getSizeOfFile() {
@@ -25,6 +24,36 @@ public class Node {
 
     @Override
     public String toString() {
-        return this.pathToFile + "," + this.nameOfFile+","+this.sizeOfFile + "," + this.connectionsOfFile+","+this.sizeOfCircle+"\n";
+        return this.pathToFile + "," + this.nameOfFile+","+this.sizeOfFile + +this.sizeOfCircle+"\n";
+    }
+
+    public String getNameOfFile() {
+        return nameOfFile;
+    }
+
+    public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
+    }
+
+    public void setSizeOfFile(double sizeOfFile) {
+        this.sizeOfFile = sizeOfFile;
+    }
+
+    public String getPathToFile() {
+        return pathToFile;
+    }
+
+    public void setPathToFile(String pathToFile) {
+        this.pathToFile = pathToFile;
+    }
+
+
+
+    public int getSizeOfCircle() {
+        return sizeOfCircle;
+    }
+
+    public void setSizeOfCircle(int sizeOfCircle) {
+        this.sizeOfCircle = sizeOfCircle;
     }
 }
