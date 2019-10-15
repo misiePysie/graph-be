@@ -19,6 +19,15 @@ public class AnalyzeFile {
 
     private static List<Node> listOfNodes;
     private static List<String> listOfFileNames;
+    private static List<Edge> listOfEdges;
+
+    public static List<Edge> getListOfEdges() {
+        return listOfEdges;
+    }
+
+    public static void setListOfEdges(List<Edge> listOfEdges) {
+        AnalyzeFile.listOfEdges = listOfEdges;
+    }
 
     public static void createNodeForEachFile() {
         listOfNodes = new ArrayList<Node>();
@@ -46,21 +55,28 @@ public class AnalyzeFile {
         return null;
     }
 
-    public static Node connectionsOfFiles(String listOfFiles) {
-
+    public static Edge createEdge(String listOfFiles) {
+                Edge edge;
+                Node node2;
+                int numberOfConnections=0;
         try {
                 Stream<String> lines = Files.lines(Paths.get(listOfFiles));
                 List<String> content = lines.collect(Collectors.toList());
                 String lineWithImport;
                 for (int i =0;i<content.size();i++){
                  lineWithImport=searchImports(content.get(i));
-                 countConnections(lineWithImport);
+                numberOfConnections= countConnections(lineWithImport);
+
 
                  for (int j=0;j<listOfNodes.size();j++){
 
-                     if(listOfNodes.get(i).getPathToFile().contains( searchAnotherNode(lineWithImport)));
-                     return listOfNodes.get(i);
+                     if(listOfNodes.get(j).getPathToFile().contains( searchAnotherNode(lineWithImport)));
+                     node2=listOfNodes.get(j);
+                     edge = new Edge(listOfNodes.get(i),node2,numberOfConnections);
+                     listOfEdges.add(edge);
+
                  }
+
 
                 }
 
@@ -124,14 +140,7 @@ public class AnalyzeFile {
         return listOfNodes;
     }
 
-    public Edge createEdge(){
-        Node tempNode;
-        for (int i=0;i<listOfNodes.size();i++ ){
-           tempNode= connectionsOfFiles(listOfNodes.get(i).getPathToFile());
-            Edge edge = new Edge(listOfNodes.get(i),tempNode,);
 
-        }
-    }//TODO
     public static String searchAnotherNode (String lineWithImport) {
         String[] splitLine=new String[lineWithImport.length()];
         if (lineWithImport.contains("\"")) {

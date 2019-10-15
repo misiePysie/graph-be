@@ -21,7 +21,7 @@ public class GraphApplication {
           AnalyzeFile.createNodeForEachFile();
           System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
-          //AnalyzeFile.listAllFilesNames("F:\\Java\\Projects\\graphy\\src");
+        System.out.println(Arrays.toString(AnalyzeFile.getListOfEdges().toArray()));
 
         }
 }
