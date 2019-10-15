@@ -29,7 +29,7 @@ public class ReadFiles {
 
         for (int i = 0; i < listOfFileNames.size() ; i++) {
 
-            SourceFile sf = new SourceFile(listOfFileNames.get(i),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
+            SourceFile sf = new SourceFile(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
             getListOfSourceFiles().add(sf);
         }
         resizeCircle();
@@ -96,10 +96,13 @@ public class ReadFiles {
 
     public static double getSize(int i) {
 
-
         File f = new File(listOfFileNames.get(i));
         return f.length();
-
+    }
+    public static String getName(String path)
+    {
+        File f=new File(path);
+        return f.getName();
     }
 
 

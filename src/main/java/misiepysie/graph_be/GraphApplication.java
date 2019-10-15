@@ -14,7 +14,8 @@ public class GraphApplication {
         SpringApplication.run(GraphApplication.class, args);
 
 
-            ReadFiles.listAllFilesNames(System.getProperty("user.dir")+"/src");
+          ReadFiles.listAllFilesNames(System.getProperty("user.dir")+"/src");
+            //ReadFiles.listAllFilesNames("F:\\Java\\Projects\\graphy\\src");
             ReadFiles.createNodeForEachFile();
             //to co przesylamy chlopakom, nie musimy tego na razie wyswietlac
             System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
