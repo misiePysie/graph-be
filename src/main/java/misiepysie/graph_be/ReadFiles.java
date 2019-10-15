@@ -130,7 +130,26 @@ public class ReadFiles {
         } else {
             return ("Size of file: " + getFileSizeBytes(f));
         }
+    }
 
+    private static void resizeCircle()
+    {
+        double max=-1;
+        int index=-1;
+        for (int i=0;i<listOfSourceFiles.size();i++)
+        {
+            if(listOfSourceFiles.get(i).getSizeOfFile()>max) {
+                max = listOfSourceFiles.get(i).getSizeOfFile();
+                index = i;
+            }
+        }
+        listOfSourceFiles.get(index).setSizeOfCircle(100);
+        double val=0;
+        for(int i=0;i<listOfSourceFiles.size();i++)
+        {
+            val=(listOfSourceFiles.get(i).getSizeOfFile()*100)/max;
+            listOfSourceFiles.get(i).setSizeOfCircle(val);
+        }
 
     }
 
