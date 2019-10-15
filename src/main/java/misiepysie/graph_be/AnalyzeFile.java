@@ -19,13 +19,22 @@ public class AnalyzeFile {
 
     private static List<Node> listOfNodes;
     private static List<String> listOfFileNames;
+    private static List<Edge> listOfEdges;
+
+    public static List<Edge> getListOfEdges() {
+        return listOfEdges;
+    }
+
+    public static void setListOfEdges(List<Edge> listOfEdges) {
+        AnalyzeFile.listOfEdges = listOfEdges;
+    }
 
     public static void createNodeForEachFile() {
         listOfNodes = new ArrayList<Node>();
 
-        for (int i = 0; i < listOfFileNames.size() ; i++) {
+        for (int i = 1; i < listOfFileNames.size() ; i++) {
 
-            Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i),connectionsOfFiles(listOfFileNames.get(i)));
+            Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i));
             getListOfNodes().add(sf);
         }
         resizeCircle();
@@ -46,42 +55,62 @@ public class AnalyzeFile {
         return null;
     }
 
-    public static String connectionsOfFiles(String listOfFiles) {
-        StringBuilder out = new StringBuilder("");
-        try {
-                Stream<String> lines = Files.lines(Paths.get(listOfFiles));
+    public static void createEdge() {
+        Edge edge;
+        Node node2;
+        int numberOfConnections = 0;
+        listOfEdges=new ArrayList<Edge>();
+        for (int k = 0; k < listOfNodes.size(); k++) {
+            try {
+                Stream<String> lines = Files.lines(Paths.get(listOfNodes.get(k).getPathToFile()));
                 List<String> content = lines.collect(Collectors.toList());
-                StringBuilder s = new StringBuilder("\nImports:");
-                content.forEach(x -> s.append(searchImports(x)));
+                String lineWithImport=null;
+                for (int i = 0; i < content.size(); i++) {
+                    lineWithImport = searchImports(content.get(i));
+                   // System.out.println(lineWithImport+"\n");
 
-                String returnstatement= s.toString();
+                    if (!(lineWithImport == null)) {
+                        numberOfConnections = countConnections(lineWithImport);
 
-                int countingImport = countingWordsInString(returnstatement,"import");
+                        for (int j = 0; j < listOfNodes.size(); j++) {
 
-                out.append("Imports:" + countingImport);
+                            if (listOfNodes.get(j).getNameOfFile().equals(searchAnotherNode(lineWithImport))) ;
+                            node2 = listOfNodes.get(j);
+                            edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
+                            getListOfEdges().add(edge);
+                            break;
+
+                        }
+                    }else
+                    {
+                        break;
+                    }
+                }
+
+
+            }
+            catch(IOException e) {
+                System.err.format("IOException: %s%n", e);
+            }
         }
-        catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
-            return null;
-        }
-        return out.toString();
+
     }
 
-    public static int countingWordsInString(String descriptionFile, String keyWord ){
-        int j = 0;
-        Pattern p = Pattern.compile(keyWord);
-        Matcher m = p.matcher( descriptionFile );
-        while (m.find()) {
-            j++;
-        }
-        return j;
-    }
+//    public static int countingWordsInString(String descriptionFile, String keyWord ){
+//        int j = 0;
+//        Pattern p = Pattern.compile(keyWord);
+//        Matcher m = p.matcher( descriptionFile );
+//        while (m.find()) {
+//            j++;
+//        }
+//        return j;
+//    }
 
     public static String searchImports(String line) {
         if (line.startsWith("import")) {
             return line;
         }
-        else return null + " ";
+        else return null;
     }
 
     public static double getSize(int i) {
@@ -118,5 +147,35 @@ public class AnalyzeFile {
     public static List<Node> getListOfNodes() {
         return listOfNodes;
     }
+
+
+    public static String searchAnotherNode (String lineWithImport) {
+
+        String anotherNode;
+        int indexOfFirstQuotes;
+        if (lineWithImport.contains("\"")) {
+            indexOfFirstQuotes=lineWithImport.indexOf("\"");
+            anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
+            return anotherNode;
+        } else if (lineWithImport.contains("\'")) {
+            indexOfFirstQuotes=lineWithImport.indexOf("\'");
+            anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
+            return anotherNode;
+
+        }
+
+       return null;
+    }
+    public static int countConnections(String lineWithImport){
+        int numberOfCommas=1;
+
+        for (int i=0;i<lineWithImport.length();i++){
+            if (lineWithImport.charAt(i)==','){
+                numberOfCommas++;
+            }
+        }
+        return numberOfCommas;
+    }
+
 
 }
