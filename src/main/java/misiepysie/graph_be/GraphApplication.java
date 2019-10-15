@@ -21,6 +21,8 @@ public class GraphApplication {
           AnalyzeFile.createNodeForEachFile();
           System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
+
+
           AnalyzeFile.createEdge();
          System.out.println(Arrays.toString(AnalyzeFile.getListOfEdges().toArray()));
 

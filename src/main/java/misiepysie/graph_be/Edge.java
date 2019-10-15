@@ -3,17 +3,18 @@ package misiepysie.graph_be;
 public class Edge {
     private Node n1;
     private Node n2;
+    private int numberOfConnections;
 
     @Override
     public String toString() {
         return "Edge{" +
-                "n1=" + n1 +
-                ", n2=" + n2 +
-                ", numberOfConnections=" + numberOfConnections +
+                "" + n1.getPathToFile() +
+                "," + n2.getPathToFile() +
+                "," + numberOfConnections +'\n'+
                 '}';
     }
 
-    private int numberOfConnections;
+
 
     public Edge(Node n1, Node n2, int numberOfConnections) {
         this.n1 = n1;
