@@ -15,16 +15,20 @@ public class GraphApplication {
 
           AnalyzeFile.listAllFilesNames(System.getProperty("user.dir")+"/src");
           AnalyzeFile.createNodeForEachFile();
-          System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
+          ArraysOfNodesAndEdges.getArrayListOfNodes().addAll(AnalyzeFile.getListOfNodes());
+         // System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
           AnalyzeFile.listAllFilesNames("C:\\Users\\Gabi\\Desktop\\graph-fe-app-master\\src");
           AnalyzeFile.createNodeForEachFile();
-          System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
+          ArraysOfNodesAndEdges.getArrayListOfNodes().addAll(AnalyzeFile.getListOfNodes());
+        System.out.println(Arrays.toString(ArraysOfNodesAndEdges.getArrayListOfNodes().toArray()));
+          //System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
 
 
           AnalyzeFile.createEdge();
-         System.out.println(Arrays.toString(AnalyzeFile.getListOfEdges().toArray()));
+          ArraysOfNodesAndEdges.getArrayListOfEdges().addAll(AnalyzeFile.getListOfEdges());
+         System.out.println(Arrays.toString(ArraysOfNodesAndEdges.getArrayListOfEdges().toArray()));
 
         }
 }

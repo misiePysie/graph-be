@@ -7,11 +7,9 @@ public class Edge {
 
     @Override
     public String toString() {
-        return "Edge{" +
-                "" + n1.getPathToFile() +
-                "," + n2.getPathToFile() +
-                "," + numberOfConnections +'\n'+
-                '}';
+        return this.n1.getPathToFile() +
+                "," + this.n2.getPathToFile() +
+                "," + this.numberOfConnections+"\n";
     }
 
 

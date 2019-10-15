@@ -24,7 +24,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return this.pathToFile + "," + this.nameOfFile+","+this.sizeOfFile + +this.sizeOfCircle+"\n";
+        return this.pathToFile + "," + this.nameOfFile+","+this.sizeOfFile + +this.sizeOfCircle+'\n';
     }
 
     public String getNameOfFile() {
