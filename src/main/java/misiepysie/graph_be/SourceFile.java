@@ -14,10 +14,8 @@ public class SourceFile {
     }
 
 
-
-
     @Override
     public String toString() {
-        return this.nameOfFile + "," + this.sizeOfFile + "," + this.connectionsOfFile;
+        return this.nameOfFile + "," + this.sizeOfFile + "," + this.connectionsOfFile+"\n";
     }
 }
