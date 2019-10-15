@@ -6,7 +6,6 @@ public class SourceFile {
     private double sizeOfFile;
     private String nameOfFile;
     private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
-
     private int sizeOfCircle;
 
     SourceFile(String name,double size, String connections)

@@ -62,7 +62,7 @@ public class ReadFiles {
                 s.append("\nUsings:");
                 content.forEach(x -> s.append(searchUsings(x)));
                 String returnstatement= s.toString();
-                System.out.println( "\n" + listOfFiles + "\n" + getSizeString(listOfFiles) +"\n");
+                System.out.println( "\n" + listOfFiles + "\n" );
 
                 int countingImport = countingWordsInString(returnstatement,"import");
                 int countingIncludes = countingWordsInString(returnstatement,"include");
@@ -122,15 +122,7 @@ public class ReadFiles {
 
     }
 
-    public static String getSizeString(String i) {
 
-        File f = new File(i);
-        if (!f.exists() || !f.isFile()) {
-            return ("there is no file in this path");
-        } else {
-            return ("Size of file: " + getFileSizeBytes(f));
-        }
-    }
 
     private static void resizeCircle()
     {
@@ -153,15 +145,7 @@ public class ReadFiles {
 
     }
 
-    private static String getFileSizeBytes(File file) {
-        return (double) file.length() + "b";
-    }
 
-    private static final long  MEGABYTE = 1024L * 1024L;
-
-    public static long bytesToMeg(long bytes) {
-        return bytes / MEGABYTE ;
-    }
 
     public static List<SourceFile> getListOfSourceFiles() {
         return listOfSourceFiles;

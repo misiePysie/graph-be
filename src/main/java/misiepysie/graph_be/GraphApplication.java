@@ -20,7 +20,7 @@ public class GraphApplication {
             ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
 
             //to co przesylamy chlopakom, nie musimy tego na razie wyswietlac
-            //System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
+            System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
         }
          catch(IOException e){
             System.out.println(e.getStackTrace());
