@@ -18,7 +18,9 @@ public class GraphApplication {
             importFiles.listAllFilesNames().forEach(System.out::println);
             ReadFiles.createNodeForEachFile();
             ReadFiles.getListOfSourceFiles().forEach(x->x.toString());
-            System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
+
+            //to co przesylamy chlopakom, nie musimy tego na razie wyswietlac
+            //System.out.println(Arrays.toString(ReadFiles.getListOfSourceFiles().toArray()));
         }
          catch(IOException e){
             System.out.println(e.getStackTrace());

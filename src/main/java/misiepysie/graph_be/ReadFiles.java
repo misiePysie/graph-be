@@ -114,15 +114,11 @@ public class ReadFiles {
         else return null + " ";
     }
 
-    public static String getSize(int i) {
+    public static double getSize(int i) {
+
 
         File f = new File(listAllFilesNames().get(i));
-        if (!f.exists() || !f.isFile()) {
-            return ("there is no file in this path");
-        } else {
-            return ("Size of file: " + getFileSizeBytes(f));
-        }
-
+        return f.length();
 
     }
 

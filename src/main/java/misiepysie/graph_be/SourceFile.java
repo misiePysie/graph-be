@@ -1,13 +1,12 @@
 package misiepysie.graph_be;
 
 public class SourceFile {
-    private String sizeOfFile;
+    private double sizeOfFile;
     private String nameOfFile;
     private String connectionsOfFile; //todo: na razie string pozniej tzreba to jakos fajnie zapisac
 
-    SourceFile(String name,String size, String connections)
+    SourceFile(String name,double size, String connections)
     {
-
         sizeOfFile=size;
         nameOfFile=name;
         connectionsOfFile=connections;
@@ -15,10 +14,8 @@ public class SourceFile {
     }
 
 
-
-
     @Override
     public String toString() {
-        return this.nameOfFile + "," + this.sizeOfFile + "," + this.connectionsOfFile;
+        return this.nameOfFile + "," + this.sizeOfFile + "," + this.connectionsOfFile+"\n";
     }
 }
