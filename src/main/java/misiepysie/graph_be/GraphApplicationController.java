@@ -9,6 +9,8 @@ import java.util.ArrayList;
 @RestController
 public class GraphApplicationController {
 
+    @CrossOrigin(origins = "http://localhost:3030")
+
     @ResponseBody
     @RequestMapping(path="/dir", method = RequestMethod.GET)
     public String dirPath(@RequestBody String paths){
