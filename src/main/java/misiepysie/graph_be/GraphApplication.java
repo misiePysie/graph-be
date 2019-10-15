@@ -17,11 +17,12 @@ public class GraphApplication {
           AnalyzeFile.createNodeForEachFile();
           System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
-          AnalyzeFile.listAllFilesNames(System.getProperty("user.home") + "/graph-fe-app/src");
+          AnalyzeFile.listAllFilesNames("C:\\Users\\Gabi\\Desktop\\graph-fe-app-master\\src");
           AnalyzeFile.createNodeForEachFile();
           System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
 
-        System.out.println(Arrays.toString(AnalyzeFile.getListOfEdges().toArray()));
+          AnalyzeFile.createEdge();
+         System.out.println(Arrays.toString(AnalyzeFile.getListOfEdges().toArray()));
 
         }
 }

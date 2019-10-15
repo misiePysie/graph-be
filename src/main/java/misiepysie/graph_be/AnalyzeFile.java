@@ -32,7 +32,7 @@ public class AnalyzeFile {
     public static void createNodeForEachFile() {
         listOfNodes = new ArrayList<Node>();
 
-        for (int i = 0; i < listOfFileNames.size() ; i++) {
+        for (int i = 1; i < listOfFileNames.size() ; i++) {
 
             Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i));
             getListOfNodes().add(sf);
@@ -55,48 +55,55 @@ public class AnalyzeFile {
         return null;
     }
 
-    public static Edge createEdge(String listOfFiles) {
-                Edge edge;
-                Node node2;
-                int numberOfConnections=0;
-        try {
-                Stream<String> lines = Files.lines(Paths.get(listOfFiles));
+    public static void createEdge() {
+        Edge edge;
+        Node node2;
+        int numberOfConnections = 0;
+        listOfEdges=new ArrayList<Edge>();
+        for (int k = 0; k < listOfNodes.size(); k++) {
+            try {
+                Stream<String> lines = Files.lines(Paths.get(listOfFileNames.get(k)));
                 List<String> content = lines.collect(Collectors.toList());
-                String lineWithImport;
-                for (int i =0;i<content.size();i++){
-                 lineWithImport=searchImports(content.get(i));
-                numberOfConnections= countConnections(lineWithImport);
+                String lineWithImport="";
+                for (int i = 0; i < content.size(); i++) {
+                    lineWithImport = searchImports(content.get(i));
+                    //System.out.println(lineWithImport);
+                    if (!(lineWithImport == null)) {
+                        numberOfConnections = countConnections(lineWithImport);
+                        System.out.println(searchAnotherNode(lineWithImport));
 
+                        for (int j = 0; j < listOfNodes.size(); j++) {
 
-                 for (int j=0;j<listOfNodes.size();j++){
+                            if (listOfNodes.get(j).getPathToFile().equals(searchAnotherNode(lineWithImport))) ;
+                            node2 = listOfNodes.get(j);
+                            edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
+                            getListOfEdges().add(edge);
 
-                     if(listOfNodes.get(j).getPathToFile().contains( searchAnotherNode(lineWithImport)));
-                     node2=listOfNodes.get(j);
-                     edge = new Edge(listOfNodes.get(i),node2,numberOfConnections);
-                     listOfEdges.add(edge);
-
-                 }
-
-
+                        }
+                    }else
+                    {
+                        break;
+                    }
                 }
 
+
+            }
+            catch(IOException e) {
+                System.err.format("IOException: %s%n", e);
+            }
         }
-        catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
-            return null;
-        }
-        return null;
+
     }
 
-    public static int countingWordsInString(String descriptionFile, String keyWord ){
-        int j = 0;
-        Pattern p = Pattern.compile(keyWord);
-        Matcher m = p.matcher( descriptionFile );
-        while (m.find()) {
-            j++;
-        }
-        return j;
-    }
+//    public static int countingWordsInString(String descriptionFile, String keyWord ){
+//        int j = 0;
+//        Pattern p = Pattern.compile(keyWord);
+//        Matcher m = p.matcher( descriptionFile );
+//        while (m.find()) {
+//            j++;
+//        }
+//        return j;
+//    }
 
     public static String searchImports(String line) {
         if (line.startsWith("import")) {
@@ -142,15 +149,21 @@ public class AnalyzeFile {
 
 
     public static String searchAnotherNode (String lineWithImport) {
-        String[] splitLine=new String[lineWithImport.length()];
-        if (lineWithImport.contains("\"")) {
-            splitLine = lineWithImport.split(" \" "); //????
 
+        String anotherNode;
+        int indexOfFirstQuotes;
+        if (lineWithImport.contains("\"")) {
+            indexOfFirstQuotes=lineWithImport.indexOf("\"");
+            anotherNode=lineWithImport.substring(indexOfFirstQuotes);
+            return anotherNode;
         } else if (lineWithImport.contains("\'")) {
-            splitLine = lineWithImport.split(" \' "); //????
+            indexOfFirstQuotes=lineWithImport.indexOf("\'");
+            anotherNode=lineWithImport.substring(indexOfFirstQuotes);
+            return anotherNode;
 
         }
-        return splitLine[1];
+
+       return null;
     }
     public static int countConnections(String lineWithImport){
         int numberOfCommas=0;

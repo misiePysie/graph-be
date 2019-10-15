@@ -3,6 +3,16 @@ package misiepysie.graph_be;
 public class Edge {
     private Node n1;
     private Node n2;
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "n1=" + n1 +
+                ", n2=" + n2 +
+                ", numberOfConnections=" + numberOfConnections +
+                '}';
+    }
+
     private int numberOfConnections;
 
     public Edge(Node n1, Node n2, int numberOfConnections) {
