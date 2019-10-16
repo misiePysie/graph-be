@@ -158,7 +158,8 @@ public class AnalyzeFile {
             indexOfFirstQuotes=lineWithImport.indexOf("\"");
             anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
             return anotherNode;
-        } else if (lineWithImport.contains("\'")) {
+        } else if ((lineWithImport.contains("\'."))) {
+            lineWithImport.replaceFirst("\'","k");
             indexOfFirstQuotes=lineWithImport.indexOf("\'");
             anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
             return anotherNode;
