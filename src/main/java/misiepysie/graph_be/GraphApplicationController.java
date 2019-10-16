@@ -17,7 +17,7 @@ public class GraphApplicationController {
     @CrossOrigin(origins = "http://localhost:8080")
 
     @ResponseBody
-    @RequestMapping(path="/dir", method = RequestMethod.GET)
+    @RequestMapping(path="/dir", method = RequestMethod.POST)
     public String dirPath(@RequestBody String paths) {
 
         Gson gson = new Gson();
