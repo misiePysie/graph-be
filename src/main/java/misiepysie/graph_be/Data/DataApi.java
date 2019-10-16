@@ -1,6 +1,5 @@
 package misiepysie.graph_be.Data;
 
-import misiepysie.graph_be.GraphObjects.Edge;
 import misiepysie.graph_be.GraphObjects.Node;
 
 import java.util.ArrayList;
@@ -8,9 +7,9 @@ import java.util.ArrayList;
 public class DataApi {
 
     private ArrayList<Node> nodesData= new ArrayList<Node>();
-    private ArrayList<Edge> edgesData= new ArrayList<Edge>();
+    private ArrayList<EdgeApi> edgesData= new ArrayList<EdgeApi>();
 
-    public DataApi(ArrayList<Node> nodesData, ArrayList<Edge> edgesData) {
+    public DataApi(ArrayList<Node> nodesData, ArrayList<EdgeApi> edgesData) {
         this.nodesData = nodesData;
         this.edgesData = edgesData;
     }
@@ -23,11 +22,11 @@ public class DataApi {
         this.nodesData = nodesData;
     }
 
-    public ArrayList<Edge> getEdgesData() {
+    public ArrayList<EdgeApi> getEdgesData() {
         return edgesData;
     }
 
-    public void setEdgesData(ArrayList<Edge> edgesData) {
+    public void setEdgesData(ArrayList<EdgeApi> edgesData) {
         this.edgesData = edgesData;
     }
 }
