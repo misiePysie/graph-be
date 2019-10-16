@@ -79,9 +79,10 @@ public class AnalyzeFile {
                             node2 = listOfNodes.get(j);
                             edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
                             getListOfEdges().add(edge);
-                            break;
+                           // break;
 
                         }
+                        break;
                     }else
                     {
                         break;
@@ -158,15 +159,17 @@ public class AnalyzeFile {
             indexOfFirstQuotes=lineWithImport.indexOf("\"");
             anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
             return anotherNode;
-        } else if ((lineWithImport.contains("\'."))) {
-            lineWithImport.replaceFirst("\'","k");
+        } else if ((lineWithImport.contains("css"))) {
+           // lineWithImport.replace("*","\'");
             indexOfFirstQuotes=lineWithImport.indexOf("\'");
             anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
             return anotherNode;
 
+        }else{
+
+            return null;
         }
 
-       return null;
     }
     public static int countConnections(String lineWithImport){
         int numberOfCommas=1;
