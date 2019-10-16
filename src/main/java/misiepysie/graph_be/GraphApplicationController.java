@@ -14,45 +14,47 @@ import java.util.ArrayList;
 @RestController
 public class GraphApplicationController {
 
-    @CrossOrigin(origins = "http://localhost:3030")
+    @CrossOrigin(origins = "http://localhost:8080")
 
     @ResponseBody
     @RequestMapping(path="/dir", method = RequestMethod.GET)
-    public String dirPath(@RequestBody String paths){
+    public String dirPath(@RequestBody String paths) {
 
         Gson gson = new Gson();
+        try {
+            DirectoryPath temp = gson.fromJson(paths, DirectoryPath.class);
 
-        DirectoryPath temp = gson.fromJson(paths,DirectoryPath.class);
-
-        ArrayList<Node> tempNodes = new ArrayList<Node>();
-        ArrayList<Edge> tempEdge = new ArrayList<Edge>();
-
-        Data dataTemp = new Data(tempNodes,tempEdge);
-
-//      GraphApplication.directory.setBackendSrc(temp.getBackendSrc());
-//      GraphApplication.directory.setFrontendSrc(temp.getFrontendSrc());
-        AnalyzeFile.listAllFilesNames(temp.getBackendSrc());
-        AnalyzeFile.createNodeForEachFile();
-        dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-//         System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
-
-        AnalyzeFile.listAllFilesNames(temp.getFrontendSrc());
-        AnalyzeFile.createNodeForEachFile();
-        dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-//        System.out.println(Arrays.toString(dataTemp.getNodesData().toArray()));
-//        System.out.println(Arrays.toString(AnalyzeFile.getListOfNodes().toArray()));
+            if(temp.getBackendSrc()==null||temp.getFrontendSrc()==null){
+                throw(new IllegalArgumentException());
+            }
 
 
-        AnalyzeFile.createEdge();
-        Data.getEdgesData().addAll(AnalyzeFile.getListOfEdges());
+            ArrayList<Node> tempNodes = new ArrayList<Node>();
+            ArrayList<Edge> tempEdge = new ArrayList<Edge>();
 
-//        System.out.println(dataTemp.getNodesData());
-//        System.out.println(dataTemp.getEdgesData());
+            Data dataTemp = new Data(tempNodes, tempEdge);
 
-        DataApi apiData = new DataApi(dataTemp.getNodesData(),dataTemp.getEdgesData());
 
-       return gson.toJson(apiData);
+            AnalyzeFile.listAllFilesNames(temp.getBackendSrc());
+            AnalyzeFile.createNodeForEachFile();
+            dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
+
+            AnalyzeFile.listAllFilesNames(temp.getFrontendSrc());
+            AnalyzeFile.createNodeForEachFile();
+            dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
+
+
+            AnalyzeFile.createEdge();
+            Data.getEdgesData().addAll(AnalyzeFile.getListOfEdges());
+
+
+            DataApi apiData = new DataApi(dataTemp.getNodesData(), dataTemp.getEdgesData());
+
+            return gson.toJson(apiData);
+        }
+    catch(IllegalArgumentException e){
+        System.out.println("Wrong argument");
+        return e.getStackTrace().toString();
     }
 
-
-}
+}}
