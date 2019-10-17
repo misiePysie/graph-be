@@ -49,7 +49,7 @@ public class GraphApplicationController {
 //                dataTemp.getNodesData().add(AnalyzeFile.getListOfNodes().get(i));
 //            }
             dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-           dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
+//           dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
 
 
             AnalyzeFile.createEdge();
