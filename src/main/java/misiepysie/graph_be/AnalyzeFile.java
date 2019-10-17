@@ -80,15 +80,15 @@ public class AnalyzeFile {
                         numberOfConnections = countConnections(lineWithImport);
 
                         for (int j = 0; j < listOfNodes.size(); j++) {
-                            System.out.println(listOfNodes.get(i));
+                            //System.out.println(listOfNodes.get(i));
 
                             if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport))||listOfNodes.get(j).getId().contains(searchAnotherNode(lineWithImport))) ;
                             node2 = listOfNodes.get(j);
                             edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
                             listOfEdges.add(edge);
+                            break;
 
                         }
-                        break;
                     }else
                     {
                         break;
