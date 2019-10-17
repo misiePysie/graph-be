@@ -19,9 +19,14 @@ public class AnalyzeFile {
     }
 
     private static List<Node> listOfNodes;
-    private static List<String> listOfFileNames;
-    private static List<Edge> listOfEdges;
 
+    public static void setListOfFileNames(List<String> listOfFileNames) {
+        AnalyzeFile.listOfFileNames = listOfFileNames;
+    }
+
+    private static List<String> listOfFileNames;
+
+    private static List<Edge> listOfEdges;
     public static List<Edge> getListOfEdges() {
         return listOfEdges;
     }
@@ -36,18 +41,19 @@ public class AnalyzeFile {
         for (int i = 1; i < listOfFileNames.size() ; i++) {
 
             Node sf = new Node(listOfFileNames.get(i),getName(listOfFileNames.get(i)),getSize(i));
-            getListOfNodes().add(sf);
+            listOfNodes.add(sf);
         }
         resizeCircle();
     }
 
     public static List<String> listAllFilesNames(String path ) {
-
         try (Stream<Path> walk = Files.walk(Paths.get(path))) { //todo: add the path of current directory
+
 
             List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
             //set list of files as an already read directory
-            listOfFileNames=result;
+
+            listOfFileNames.addAll(result);
             return result;
 
         } catch (IOException e) {
@@ -74,12 +80,12 @@ public class AnalyzeFile {
                         numberOfConnections = countConnections(lineWithImport);
 
                         for (int j = 0; j < listOfNodes.size(); j++) {
+                            System.out.println(listOfNodes.get(i));
 
-                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport))) ;
+                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport))||listOfNodes.get(j).getId().contains(searchAnotherNode(lineWithImport))) ;
                             node2 = listOfNodes.get(j);
                             edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
-                            getListOfEdges().add(edge);
-                           // break;
+                            listOfEdges.add(edge);
 
                         }
                         break;
@@ -88,8 +94,6 @@ public class AnalyzeFile {
                         break;
                     }
                 }
-
-
             }
             catch(IOException e) {
                 System.err.format("IOException: %s%n", e);
@@ -97,6 +101,7 @@ public class AnalyzeFile {
         }
 
     }
+
 
 //    public static int countingWordsInString(String descriptionFile, String keyWord ){
 //        int j = 0;
@@ -107,7 +112,6 @@ public class AnalyzeFile {
 //        }
 //        return j;
 //    }
-
     public static String searchImports(String line) {
         if (line.startsWith("import")) {
             return line;
@@ -151,26 +155,41 @@ public class AnalyzeFile {
     }
 
 
-    public static String searchAnotherNode (String lineWithImport) {
+    public static String searchAnotherNode(String lineWithImport) {
 
         String anotherNode;
         int indexOfFirstQuotes;
         if (lineWithImport.contains("\"")) {
-            indexOfFirstQuotes=lineWithImport.indexOf("\"");
-            anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
+            indexOfFirstQuotes = lineWithImport.indexOf("\"");
+            anotherNode = lineWithImport.substring(indexOfFirstQuotes + 1, lineWithImport.length() - 2);
             return anotherNode;
         } else if ((lineWithImport.contains("css"))) {
-           // lineWithImport.replace("*","\'");
-            indexOfFirstQuotes=lineWithImport.indexOf("\'");
-            anotherNode=lineWithImport.substring(indexOfFirstQuotes+1,lineWithImport.length()-2);
+            // lineWithImport.replace("*","\'");
+            indexOfFirstQuotes = lineWithImport.indexOf("\'");
+            anotherNode = lineWithImport.substring(indexOfFirstQuotes + 1, lineWithImport.length() - 2);
+            return anotherNode;
+        } else if (lineWithImport.contains("graph_be")) {
+
+            String[] f = lineWithImport.split(".");
+            String nameOfClass = f[3].substring(f[3].length() - 1);
+            anotherNode = nameOfClass+".java";
             return anotherNode;
 
-        }else{
 
-            return null;
         }
+        return null;
 
     }
+
+    public static String searchPathToClass(String pathToClass) {
+        for (int i = 0; i < listOfFileNames.size(); i++) {
+            if (listOfFileNames.get(i).contains(pathToClass)) {
+                return listOfFileNames.get(i);
+            }
+        }
+        return null;
+    }
+
     public static int countConnections(String lineWithImport){
         int numberOfCommas=1;
 
@@ -183,4 +202,8 @@ public class AnalyzeFile {
     }
 
 
+
+    public static List<String> getListOfFileNames() {
+        return listOfFileNames;
+    }
 }

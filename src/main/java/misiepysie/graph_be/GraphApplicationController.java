@@ -37,14 +37,19 @@ public class GraphApplicationController {
 
             Data dataTemp = new Data(tempNodes, tempEdge);
 
-
+            AnalyzeFile.setListOfFileNames(new ArrayList<String>());
             AnalyzeFile.listAllFilesNames(temp.getBackendSrc());
-            AnalyzeFile.createNodeForEachFile();
-            dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-
             AnalyzeFile.listAllFilesNames(temp.getFrontendSrc());
+//            AnalyzeFile.createNodeForEachFile();
+
+
             AnalyzeFile.createNodeForEachFile();
+//            for(int i=0;i<dataTemp.getNodesData().size();i++)
+//            {
+//                dataTemp.getNodesData().add(AnalyzeFile.getListOfNodes().get(i));
+//            }
             dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
+           dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
 
 
             AnalyzeFile.createEdge();
