@@ -64,41 +64,90 @@ public class AnalyzeFile {
 
     public static void createEdge() {
         Edge edge;
-        Node node2;
         int numberOfConnections = 0;
         listOfEdges=new ArrayList<Edge>();
-        for (int k = 0; k < listOfNodes.size(); k++) {
+       listOfNodes.forEach(x-> System.out.println(x));
+        for (Node n1:listOfNodes
+             ) {
+            System.out.println("To: "+n1);
             try {
-                Stream<String> lines = Files.lines(Paths.get(listOfNodes.get(k).getId()));
+                Stream<String> lines = Files.lines(Paths.get(n1.getId()));
                 List<String> content = lines.collect(Collectors.toList());
-                String lineWithImport=null;
-                for (int i = 0; i < content.size(); i++) {
-                    lineWithImport = searchImports(content.get(i));
-                   // System.out.println(lineWithImport+"\n");
+                for (String s : content
+                ) {
+                    if (searchImports(s)) {
+                        System.out.println("True");
+                        System.out.println(s);
+                        numberOfConnections = countConnections(s);
+                        System.out.println(numberOfConnections);
+                        for (Node n2 : listOfNodes
+                        ) {
+                            if (!(n1.getId().contains(searchAnotherNode(s))) && n2.getId().contains(searchAnotherNode(s))) {
+                                if (searchAnotherNode(s).contains("style")) {
+                                    if (n1.getLabel().contains("footer") || n1.getLabel().contains("header")) {
+                                        System.out.println("From :" + listOfNodes.get(listOfNodes.indexOf(n1) + 1));
+                                        System.out.println(listOfNodes.get(listOfNodes.indexOf(n1) + 1).getLabel());
+                                        edge = new Edge(listOfNodes.get(listOfNodes.indexOf(n1) + 1), n1, numberOfConnections);
+                                        listOfEdges.add(edge);
+                                    } else if (n1.getLabel().contains("graphNetwork")) {
+                                        System.out.println("From :" + listOfNodes.get(listOfNodes.indexOf(n1) + 3));
+                                        System.out.println(listOfNodes.get(listOfNodes.indexOf(n1) + 3).getLabel());
+                                        edge = new Edge(listOfNodes.get(listOfNodes.indexOf(n1) + 3), n1, numberOfConnections);
+                                        listOfEdges.add(edge);
 
-                    if (!(lineWithImport == null)) {
-                        numberOfConnections = countConnections(lineWithImport);
+                                    } else {
+                                        System.out.println("From :" + n2);
+                                        System.out.println(n2.getLabel());
+                                        edge = new Edge(n2, n1, numberOfConnections);
+                                        listOfEdges.add(edge);
+                                    }
+                                } else {
+                                    System.out.println("From :" + n2);
+                                    System.out.println(n2.getLabel());
+                                    edge = new Edge(n2, n1, numberOfConnections);
+                                    listOfEdges.add(edge);
+                                }
 
-                        for (int j = 0; j < listOfNodes.size(); j++) {
-                            //System.out.println(listOfNodes.get(i));
-
-                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport)) || listOfNodes.get(j).getId().contains(searchAnotherNode(lineWithImport)))
-                                ;
-                            node2 = listOfNodes.get(j);
-                            edge = new Edge(listOfNodes.get(k), node2, numberOfConnections);
-                            listOfEdges.add(edge);
-
+                                break;
+                            }
 
                         }
-                        break;
+
                     }
-                    break;
+
                 }
-            }
-            catch(IOException e) {
-                System.err.format("IOException: %s%n", e);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+//                String lineWithImport=null;
+//                for (int i = 0; i < content.size(); i++) {
+//                    lineWithImport = searchImports(content.get(i));
+//                    System.out.println(lineWithImport);
+//                   // System.out.println(lineWithImport+"\n");
+//
+//                    if (!(lineWithImport == null)) {
+//                        numberOfConnections = countConnections(lineWithImport);
+//
+//                        for (int j = 0; j < listOfNodes.size(); j++) {
+//                            //System.out.println(listOfNodes.get(i));
+//
+//                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport)) && !(listOfNodes.get(j).equals(listOfNodes.get(k)) ));
+//                            node2 = listOfNodes.get(j);
+//                            edge = new Edge(node2, listOfNodes.get(k), numberOfConnections);
+//                            listOfEdges.add(edge);
+//                            break;
+//
+//                        }
+//
+//                    }
+//                    break;
+//                }
+//            }
+//            catch(IOException e) {
+//                System.err.format("IOException: %s%n", e);
+//            }
+//        }
 
     }
 
@@ -112,11 +161,11 @@ public class AnalyzeFile {
 //        }
 //        return j;
 //    }
-    public static String searchImports(String line) {
+    public static boolean searchImports(String line) {
         if (line.startsWith("import")) {
-            return line;
+            return true;
         }
-        else return null;
+        else return false;
     }
 
     public static double getSize(int i) {
@@ -159,25 +208,43 @@ public class AnalyzeFile {
 
         String anotherNode;
         int indexOfFirstQuotes;
-        if (lineWithImport.contains("\"")) {
-            indexOfFirstQuotes = lineWithImport.indexOf("\"");
-            anotherNode = lineWithImport.substring(indexOfFirstQuotes + 1, lineWithImport.length() - 2);
-            return anotherNode;
-        } else if ((lineWithImport.contains("css"))) {
-            // lineWithImport.replace("*","\'");
-            indexOfFirstQuotes = lineWithImport.indexOf("\'");
-            anotherNode = lineWithImport.substring(indexOfFirstQuotes + 1, lineWithImport.length() - 2);
-            return anotherNode;
-        } else if (lineWithImport.contains("graph_be")) {
+        int ind;
+        if(lineWithImport.contains("from")) //dla plikow js'owych
+        {
+            ind=lineWithImport.indexOf("from");
+            if(lineWithImport.contains("services"))
+            {
+                return "httpService";
 
-            String[] f = lineWithImport.split(".");
-            String nameOfClass = f[3].substring(f[3].length() - 1);
-            anotherNode = nameOfClass+".java";
-            return anotherNode;
+            }else if(lineWithImport.contains("modules")) {
+                anotherNode=lineWithImport.substring(lineWithImport.length()-7,lineWithImport.length()-2);
+                return anotherNode;
 
+            }else if(lineWithImport.contains("./css")) {
+                return "style";
 
+            }else{
+                anotherNode = lineWithImport.substring(ind+8 ,lineWithImport.length() - 2);
+                return anotherNode;
+            }
+
+            // System.out.println(anotherNode);
+
+        }else if (lineWithImport.contains("graph_be")) { //dla plikow java'owych
+            ind = lineWithImport.indexOf(".graph_be");
+            if (lineWithImport.contains("Data")) {
+                anotherNode = lineWithImport.substring(ind + 15, lineWithImport.length() - 1);
+                System.out.println(anotherNode+".java");
+                return anotherNode+".java";
+            }
+            if (lineWithImport.contains("GraphObjects")) {
+                anotherNode = lineWithImport.substring(ind + 23, lineWithImport.length() - 1);
+                System.out.println(anotherNode+".java");
+                return anotherNode+".java";
+            }
         }
-        return null;
+            return " ";
+
 
     }
 
@@ -197,7 +264,12 @@ public class AnalyzeFile {
             if (lineWithImport.charAt(i)==','){
                 numberOfCommas++;
             }
+            if(lineWithImport.charAt(i)=='*')
+            {
+                numberOfCommas=8888;
+            }
         }
+
         return numberOfCommas;
     }
 
