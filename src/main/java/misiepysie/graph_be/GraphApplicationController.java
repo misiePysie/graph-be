@@ -21,6 +21,8 @@ public class GraphApplicationController {
     @RequestMapping(path="/dir", method = RequestMethod.POST)
     public String dirPath(@RequestBody String paths) {
 
+
+
         Gson gson = new Gson();
         try {
             DirectoryPath temp = gson.fromJson(paths, DirectoryPath.class);

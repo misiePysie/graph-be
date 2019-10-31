@@ -1,9 +1,9 @@
 package misiepysie.graph_be;
 
-import org.springframework.boot.SpringApplication;
+import misiepysie.graph_be.Callgraph.AnalyzeCalls;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
+import java.io.FileNotFoundException;
 
 @SpringBootApplication
 public class GraphApplication {
@@ -13,7 +13,13 @@ public class GraphApplication {
 //public static DirectoryPath directory = new DirectoryPath();
 
     public static void main(String[] args) {
-        SpringApplication.run(GraphApplication.class, args);
+
+        try {
+            AnalyzeCalls.analyzeCallGraph();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+       // SpringApplication.run(GraphApplication.class, args);
 
 
 //         System.out.println(Arrays.toString(Data.getEdgesData().toArray()));
