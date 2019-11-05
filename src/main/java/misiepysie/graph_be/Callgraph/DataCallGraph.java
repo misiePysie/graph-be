@@ -22,4 +22,15 @@ public class DataCallGraph {
         return methodsFromArray;
     }
 
+    public static void setMethodsToArray(ArrayList<String> methodsToArray) {
+        DataCallGraph.methodsToArray = methodsToArray;
+    }
+
+    public static void setMethodsFromArray(ArrayList<String> methodsFromArray) {
+        DataCallGraph.methodsFromArray = methodsFromArray;
+    }
+
+    public static void setEdgesOfMethods(ArrayList<EdgeMethod> edgesOfMethods) {
+        DataCallGraph.edgesOfMethods = edgesOfMethods;
+    }
 }
