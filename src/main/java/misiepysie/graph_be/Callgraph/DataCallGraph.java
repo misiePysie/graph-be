@@ -1,5 +1,7 @@
 package misiepysie.graph_be.Callgraph;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class DataCallGraph {
@@ -8,7 +10,10 @@ public class DataCallGraph {
 
     private static ArrayList<EdgeMethod> edgesOfMethods=new ArrayList<EdgeMethod>();
 
-    public DataCallGraph() {
+    public DataCallGraph(ArrayList<String> methodsToArray, ArrayList<String> methodsFromArray, ArrayList<EdgeMethod> edgesOfMethods) {
+        this.methodsToArray=methodsToArray;
+        this.methodsFromArray=methodsFromArray;
+        this.edgesOfMethods=edgesOfMethods;
     }
 
 
@@ -35,5 +40,10 @@ public class DataCallGraph {
 
     public static void setEdgesOfMethods(ArrayList<EdgeMethod> edgesOfMethods) {
         DataCallGraph.edgesOfMethods = edgesOfMethods;
+    }
+
+    @Override
+    public String toString() {
+      return "{\"methodsToArray\":"+this.methodsToArray+",\"methodsFromArray\":"+this.methodsFromArray+",\"edgesOfMethods\":"+this.edgesOfMethods+"}";
     }
 }

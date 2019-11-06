@@ -3,6 +3,7 @@ package misiepysie.graph_be;
 import com.google.gson.Gson;
 import misiepysie.graph_be.Callgraph.AnalyzeCalls;
 import misiepysie.graph_be.Callgraph.DataCallGraph;
+import misiepysie.graph_be.Callgraph.EdgeMethod;
 import misiepysie.graph_be.Callgraph.Path;
 import misiepysie.graph_be.Data.Data;
 import misiepysie.graph_be.Data.DataApi;
@@ -77,8 +78,14 @@ public class GraphApplicationController {
             Gson gson = new Gson();
 
            Path tempPath = gson.fromJson(path, Path.class);
+           ArrayList<String> tempToMethods = new ArrayList<String>();
+           ArrayList<String> tempFromMethods = new ArrayList<String>();
+           ArrayList<EdgeMethod> tempEdgeMethod = new ArrayList<EdgeMethod>();
 
-            DataCallGraph temp = new DataCallGraph();
+
+
+
+            DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
                 System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
@@ -116,8 +123,9 @@ public class GraphApplicationController {
 
 
             Gson gsonOut = new Gson();
+            System.out.println(gsonOut.toJson(temp));
 
-            return gsonOut.toJson(temp);
+            return temp.toString();
 
         }
 }
