@@ -77,19 +77,33 @@ public class GraphApplicationController {
 
            Path tempPath = gson.fromJson(path, Path.class);
 
-            String[] args = new String[] {"/bin/bash","-c","java -jar javacg-0.1-SNAPSHOT-static.jar"+tempPath.getPath()};
+//            String[] args = new String[] {"/bin/bash","-c","java -jar javacg-0.1-SNAPSHOT-static.jar"+tempPath.getPath()};
             DataCallGraph temp = new DataCallGraph();
             try{
-            Process proc = new ProcessBuilder(args).start();
+//            Process proc = new ProcessBuilder(args).start();
 
-                AnalyzeCalls.analyzeCallGraph(path.substring(0,tempPath.getPath().length()-3)+".txt",temp);
+                System.out.println(tempPath.getPath());
+
+                System.out.println(System.getProperty("user.home"));
+
+                System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
+
+                Runtime rt = Runtime.getRuntime();
+                Process pr = rt.exec("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
+                pr.waitFor();
+
+
+                AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
 
             }
 
-            catch(IOException e){
+            catch(InterruptedException e){
                 System.out.println("Jeblo sie w api");
-                System.out.println(e.getStackTrace());
-
+                e.printStackTrace();
+            }
+            catch(IOException e){
+                System.out.println("Api sie jeblo w drugim");
+                e.printStackTrace();
             }
 
             return gson.toJson(temp);
