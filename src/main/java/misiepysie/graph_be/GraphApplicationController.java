@@ -12,7 +12,7 @@ import misiepysie.graph_be.GraphObjects.Edge;
 import misiepysie.graph_be.GraphObjects.Node;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -64,6 +64,7 @@ public class GraphApplicationController {
             DataApi apiData = new DataApi(dataTemp.getNodesData(), edgesData);
 
             return gson.toJson(apiData);
+
         } catch (IllegalArgumentException e) {
             System.out.println("Wrong argument");
             return e.getStackTrace().toString();
@@ -77,36 +78,46 @@ public class GraphApplicationController {
 
            Path tempPath = gson.fromJson(path, Path.class);
 
-//            String[] args = new String[] {"/bin/bash","-c","java -jar javacg-0.1-SNAPSHOT-static.jar"+tempPath.getPath()};
             DataCallGraph temp = new DataCallGraph();
             try{
-//            Process proc = new ProcessBuilder(args).start();
-
-                System.out.println(tempPath.getPath());
-
-                System.out.println(System.getProperty("user.home"));
 
                 System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
 
-                Runtime rt = Runtime.getRuntime();
-                Process pr = rt.exec("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
-                pr.waitFor();
 
+                File output = new File(System.getProperty("user.home")+"\\output.txt");
+
+
+                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
+                pb.redirectErrorStream(false);
+                pb.redirectOutput(output);
+
+                Process process=pb.start();
+
+                process.waitFor();
 
                 AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
+
+                System.out.println(temp.getMethodsFromArray());
+                System.out.println(temp.getMethodsToArray());
+                System.out.println(temp.getEdgesOfMethods());
+
+
 
             }
 
             catch(InterruptedException e){
-                System.out.println("Jeblo sie w api");
+                System.out.println("syplo sie w api");
                 e.printStackTrace();
             }
             catch(IOException e){
-                System.out.println("Api sie jeblo w drugim");
+                System.out.println("Api sie syplo w drugim");
                 e.printStackTrace();
             }
 
-            return gson.toJson(temp);
+
+            Gson gsonOut = new Gson();
+
+            return gsonOut.toJson(temp);
 
         }
 }
