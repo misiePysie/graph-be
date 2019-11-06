@@ -9,20 +9,6 @@ public class AnalyzeCalls {
 
 
     public static void analyzeCallGraph(String path, DataCallGraph temp) throws FileNotFoundException {
-//
-//        File file = new File(path);
-//
-//        BufferedReader br = new BufferedReader(new FileReader(file));
-//
-//        String st;
-//        try{
-//        while ((st = br.readLine()) != null){
-//            System.out.println(st);}
-//        System.out.println("Koniec pliku");
-//    }
-//        catch(IOException e){
-//            e.printStackTrace();
-//        }
 
         File calls = new File(path);
         System.out.println(path);
@@ -50,7 +36,6 @@ public class AnalyzeCalls {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
 

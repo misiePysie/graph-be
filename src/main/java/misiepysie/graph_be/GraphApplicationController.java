@@ -49,9 +49,9 @@ public class GraphApplicationController {
 
 
             AnalyzeFile.createNodeForEachFile();
-//
+
             dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-//
+
 
 
             AnalyzeFile.createEdge();
@@ -83,8 +83,6 @@ public class GraphApplicationController {
            ArrayList<EdgeMethod> tempEdgeMethod = new ArrayList<EdgeMethod>();
 
 
-
-
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
@@ -108,8 +106,6 @@ public class GraphApplicationController {
                 System.out.println(temp.getMethodsToArray());
                 System.out.println(temp.getEdgesOfMethods());
 
-
-
             }
 
             catch(InterruptedException e){
@@ -120,10 +116,6 @@ public class GraphApplicationController {
                 System.out.println("Api sie syplo w drugim");
                 e.printStackTrace();
             }
-
-
-            Gson gsonOut = new Gson();
-            System.out.println(gsonOut.toJson(temp));
 
             return temp.toString();
 
