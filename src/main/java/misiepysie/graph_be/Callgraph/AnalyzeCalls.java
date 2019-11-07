@@ -1,10 +1,8 @@
 package misiepysie.graph_be.Callgraph;
 
-import jdk.jfr.events.FileReadEvent;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import misiepysie.graph_be.Callgraph.EdgeMethod;
+import misiepysie.graph_be.Callgraph.DataCallGraph;
 
 public class AnalyzeCalls {
 
@@ -15,12 +13,8 @@ public class AnalyzeCalls {
         System.out.println(path);
 
         BufferedReader reader = new BufferedReader(new FileReader(calls));
-        String st;
         String line, methodFrom, methodTo;
         String[] methods;
-        ArrayList<EdgeMethod> tempEdge = new ArrayList<EdgeMethod>();
-        int i=0;
-
 
         try {
 
@@ -36,22 +30,13 @@ public class AnalyzeCalls {
                     temp.getMethodsFromArray().add(methodFrom);
                     temp.getMethodsToArray().add(methodTo);
 
-                    EdgeMethod buff = new EdgeMethod(methodTo,methodFrom);
-                    System.out.println(buff);
-                    tempEdge.add(i,buff);
+                    temp.getEdgesOfMethods().add(new EdgeMethod(methodTo,methodFrom));
 
-                    System.out.println("First method: " + methodTo);
-                    System.out.println("Second method: " + methodFrom);
-
-                    System.out.println("EdgesArrayTest");
-                    System.out.println(tempEdge);
-                    i++;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        temp.setEdgesOfMethods(tempEdge);
     }
 }
 

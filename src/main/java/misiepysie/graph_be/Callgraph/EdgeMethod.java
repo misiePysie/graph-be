@@ -3,8 +3,10 @@ package misiepysie.graph_be.Callgraph;
 import com.google.gson.Gson;
 
 public class EdgeMethod {
-    private static String to;
-    private static String from;
+    private  String to;
+    private  String from;
+
+
 
 
 
@@ -15,23 +17,23 @@ public class EdgeMethod {
 
 
 
-    public static String getTo() {
+    public String getTo() {
         return to;
     }
 
-    public static String getFrom() {
+    public String getFrom() {
         return from;
     }
 
     public EdgeMethod() {
     }
 
-    public static void setTo(String to) {
-        EdgeMethod.to = to;
+    public void setTo(String to) {
+        this.to = to;
     }
 
-    public static void setFrom(String from) {
-        EdgeMethod.from = from;
+    public void setFrom(String from) {
+        this.from = from;
     }
 
     @Override

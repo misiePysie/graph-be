@@ -12,6 +12,9 @@ import misiepysie.graph_be.Data.EdgeApi;
 import misiepysie.graph_be.GraphObjects.Edge;
 import misiepysie.graph_be.GraphObjects.Node;
 import org.springframework.web.bind.annotation.*;
+import misiepysie.graph_be.Callgraph.DataCallGraph;
+import misiepysie.graph_be.Callgraph.AnalyzeCalls;
+import misiepysie.graph_be.Callgraph.EdgeMethod;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -84,7 +87,6 @@ public class GraphApplicationController {
            ArrayList<String> tempToMethods = new ArrayList<String>();
            ArrayList<String> tempFromMethods = new ArrayList<String>();
            ArrayList<EdgeMethod> tempEdgeMethod = new ArrayList<EdgeMethod>();
-
 
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
