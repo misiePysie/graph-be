@@ -44,6 +44,8 @@ public class DataCallGraph {
 
     @Override
     public String toString() {
-      return "{\"methodsToArray\":"+this.methodsToArray+",\"methodsFromArray\":"+this.methodsFromArray+",\"edgesOfMethods\":"+this.edgesOfMethods+"}";
+        Gson gson = new Gson();
+        return "{\"methodsToArray\":"+gson.toJson(this.methodsToArray)+",\"methodsFromArray\":"+gson.toJson(this.methodsFromArray)+",\"edgesOfMethods\":"+this.edgesOfMethods+"}";
+
     }
 }
