@@ -71,7 +71,10 @@ public class GraphApplicationController {
             return e.getStackTrace().toString();
         }
     }
-        @ResponseBody
+
+    @CrossOrigin(origins = "http://localhost:8080")
+
+    @ResponseBody
         @RequestMapping(path="/calls", method=RequestMethod.POST)
         public String callsAnalize(@RequestBody String path){
 
