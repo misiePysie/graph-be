@@ -13,6 +13,11 @@ public class EdgeApi {
         this.weight = weight;
     }
 
+    public EdgeApi(String from, String to) {
+        this.from = from;
+        this.to = to;
+    }
+
     public String getFrom() {
         return from;
     }
