@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class DataModules {
     private static ArrayList<String> listOfPackages=new ArrayList<String>();
     private static ArrayList<String> listOfPackageEdges=new ArrayList<String>();
-    private static ArrayList<EdgeMethod> listOfMethodEdges= DataCallGraph.getEdgesOfMethods();
+
+    private static ArrayList<EdgeMethodPackage> listOfMethodEdges=new ArrayList<>();
 
     private static ArrayList<Package>  listOfWorkPackages=new ArrayList<Package>();
     private static ArrayList<EdgePackage> listOfWorkEdges=new ArrayList<EdgePackage>();
@@ -22,4 +23,13 @@ public class DataModules {
         3.liste edgow Packagow (edge package-package weight jako suma wszystkich weightow z metod)
         4.liste edgow metod (edge metoda-metoda, weight)
      */
+
+    public static ArrayList<EdgeMethodPackage> getListOfMethodEdges() {
+        return listOfMethodEdges;
+    }
+
+    public static void setListOfMethodEdges(ArrayList<EdgeMethodPackage> listOfMethodEdges) {
+        DataModules.listOfMethodEdges = listOfMethodEdges;
+    }
+
 }
