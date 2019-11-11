@@ -8,14 +8,18 @@ public class EdgeMethod {
 
 
 
-
+    private int weight;
 
     public EdgeMethod(String to,String from) {
         this.to=to;
         this.from=from;
     }
-
-
+//konstruktor dodany, żby móc uwzględnić wage połączenia
+    public EdgeMethod(String to, String from, int weight) {
+        this.to = to;
+        this.from = from;
+        this.weight = weight;
+    }
 
     public String getTo() {
         return to;
@@ -36,6 +40,14 @@ public class EdgeMethod {
         this.from = from;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+//todo: dodac weight do toStringa
     @Override
     public String toString() {
       return  "{\"to\":\""+this.to+"\",\"from\":\""+this.from+"\"}";
