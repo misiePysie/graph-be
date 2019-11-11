@@ -5,9 +5,6 @@ import com.google.gson.Gson;
 public class EdgeMethod {
     private  String to;
     private  String from;
-
-
-
     private int weight;
 
     public EdgeMethod(String to,String from) {

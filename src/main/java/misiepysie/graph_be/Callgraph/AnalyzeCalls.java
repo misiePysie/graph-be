@@ -25,7 +25,8 @@ public class AnalyzeCalls {
 
                 if (line.contains("(M)" +
                         ".graph_be.") || line.contains("(O)misiepysie.graph_be.") || line.contains("(S)misiepysie.graph_be")) {
-
+                    /*todo:tu musimy wyciagnac nazwe paczki i metody oraz wage, tworzymy od razu obiekt MisiePysiePckage
+                       i dodajemy do listy Packagow(DataModules)*/
                     line.trim();
 
                     methods = line.split(" ");
