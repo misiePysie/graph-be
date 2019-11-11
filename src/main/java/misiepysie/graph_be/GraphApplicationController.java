@@ -110,6 +110,7 @@ public class GraphApplicationController {
                 System.out.println(temp.getMethodsFromArray());
                 System.out.println(temp.getMethodsToArray());
                 System.out.println(temp.getEdgesOfMethods());
+                System.out.println("\n\n\n\n"+System.getProperty("user.home")+"\\output.txt");
 
             }
 
