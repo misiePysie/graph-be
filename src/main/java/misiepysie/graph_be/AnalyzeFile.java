@@ -120,47 +120,10 @@ public class AnalyzeFile {
                 e.printStackTrace();
             }
         }
-//                String lineWithImport=null;
-//                for (int i = 0; i < content.size(); i++) {
-//                    lineWithImport = searchImports(content.get(i));
-//                    System.out.println(lineWithImport);
-//                   // System.out.println(lineWithImport+"\n");
-//
-//                    if (!(lineWithImport == null)) {
-//                        numberOfConnections = countConnections(lineWithImport);
-//
-//                        for (int j = 0; j < listOfNodes.size(); j++) {
-//                            //System.out.println(listOfNodes.get(i));
-//
-//                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport)) && !(listOfNodes.get(j).equals(listOfNodes.get(k)) ));
-//                            node2 = listOfNodes.get(j);
-//                            edge = new Edge(node2, listOfNodes.get(k), numberOfConnections);
-//                            listOfEdges.add(edge);
-//                            break;
-//
-//                        }
-//
-//                    }
-//                    break;
-//                }
-//            }
-//            catch(IOException e) {
-//                System.err.format("IOException: %s%n", e);
-//            }
-//        }
 
     }
 
 
-//    public static int countingWordsInString(String descriptionFile, String keyWord ){
-//        int j = 0;
-//        Pattern p = Pattern.compile(keyWord);
-//        Matcher m = p.matcher( descriptionFile );
-//        while (m.find()) {
-//            j++;
-//        }
-//        return j;
-//    }
     public static boolean searchImports(String line) {
         if (line.startsWith("import")) {
             return true;
@@ -228,7 +191,6 @@ public class AnalyzeFile {
                 return anotherNode;
             }
 
-            // System.out.println(anotherNode);
 
         }else if (lineWithImport.contains("graph_be")) { //dla plikow java'owych
             ind = lineWithImport.indexOf(".graph_be");
