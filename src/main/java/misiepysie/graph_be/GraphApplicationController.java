@@ -91,13 +91,13 @@ public class GraphApplicationController {
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
-                System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
+                System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"/output.txt");
 
 
-                File output = new File(System.getProperty("user.home")+"\\output.txt");
+                File output = new File(System.getProperty("user.home")+"/output.txt");
 
 
-                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
+                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"/javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
                 pb.redirectErrorStream(false);
                 pb.redirectOutput(output);
 
@@ -105,12 +105,12 @@ public class GraphApplicationController {
 
                 process.waitFor();
 
-                AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
+                AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"/output.txt",temp);
 
                 System.out.println(temp.getMethodsFromArray());
                 System.out.println(temp.getMethodsToArray());
                 System.out.println(temp.getEdgesOfMethods());
-                System.out.println("\n\n\n\n"+System.getProperty("user.home")+"\\output.txt");
+                System.out.println("\n\n\n\n"+System.getProperty("user.home")+"/output.txt");
 
             }
 
