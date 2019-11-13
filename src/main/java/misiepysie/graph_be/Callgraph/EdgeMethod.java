@@ -1,7 +1,5 @@
 package misiepysie.graph_be.Callgraph;
 
-import com.google.gson.Gson;
-
 public class EdgeMethod {
     private  String to;
     private  String from;
@@ -11,7 +9,7 @@ public class EdgeMethod {
         this.to=to;
         this.from=from;
     }
-//konstruktor dodany, żby móc uwzględnić wage połączenia
+
     public EdgeMethod(String to, String from, int weight) {
         this.to = to;
         this.from = from;
@@ -47,6 +45,6 @@ public class EdgeMethod {
 //todo: dodac weight do toStringa
     @Override
     public String toString() {
-      return  "{\"to\":\""+this.to+"\",\"from\":\""+this.from+"\"}";
+      return  "{\"to\":\""+this.to+"\",\"from\":\""+this.from+"\",\"weight\":"+this.weight +"}";
     }
 }

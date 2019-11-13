@@ -132,7 +132,7 @@ public class AnalyzeFile {
 //                        for (int j = 0; j < listOfNodes.size(); j++) {
 //                            //System.out.println(listOfNodes.get(i));
 //
-//                            if (listOfNodes.get(j).getLabel().equals(searchAnotherNode(lineWithImport)) && !(listOfNodes.get(j).equals(listOfNodes.get(k)) ));
+//                            if (listOfNodes.get(j).getWeight().equals(searchAnotherNode(lineWithImport)) && !(listOfNodes.get(j).equals(listOfNodes.get(k)) ));
 //                            node2 = listOfNodes.get(j);
 //                            edge = new Edge(node2, listOfNodes.get(k), numberOfConnections);
 //                            listOfEdges.add(edge);

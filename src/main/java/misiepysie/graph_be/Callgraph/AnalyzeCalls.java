@@ -1,7 +1,5 @@
 package misiepysie.graph_be.Callgraph;
 
-import misiepysie.graph_be.GraphObjects.Edge;
-
 import java.io.*;
 
 import static misiepysie.graph_be.Callgraph.DataCallGraph.getEdgesOfMethods;
@@ -40,7 +38,7 @@ public class AnalyzeCalls {
                     int weight=1;
                     boolean isEdgeAdded=false;
                     for (EdgeMethod e: temp.getEdgesOfMethods()) {
-                        if(e.toString().toString().equals(new EdgeMethod(nameTo,nameFrom).toString())) {
+                        if(e.toString().equals(new EdgeMethod(nameTo,nameFrom).toString())) {
                             weight++;
                             e.setWeight(weight);
                             isEdgeAdded=true;
@@ -50,10 +48,8 @@ public class AnalyzeCalls {
                     {
                         temp.getMethodsFromArray().add(nameFrom);
                         temp.getMethodsToArray().add(nameTo);
-                        getEdgesOfMethods().add(new EdgeMethod(nameTo,nameFrom));
 
-                        //todo:zamienic ostatnia lininijke na przesylanie z waga (z tą na dole)
-                        //getEdgesOfMethods().add(new EdgeMethod(methodTo,methodFrom,weight));
+                        getEdgesOfMethods().add(new EdgeMethod(nameTo,nameFrom,weight));
 
                     }
                 }
