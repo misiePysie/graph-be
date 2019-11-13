@@ -1,19 +1,21 @@
 package misiepysie.graph_be.Modules;
 
-import misiepysie.graph_be.Callgraph.DataCallGraph;
-import misiepysie.graph_be.Callgraph.EdgeMethod;
-import misiepysie.graph_be.GraphObjects.Edge;
-
 import java.util.ArrayList;
 
 public class DataModules {
-    private static ArrayList<String> listOfPackages=new ArrayList<String>();
-    private static ArrayList<String> listOfPackageEdges=new ArrayList<String>();
 
-    private static ArrayList<EdgeMethodPackage> listOfMethodEdges=new ArrayList<>();
+      ArrayList<String> listOFNamesNodePackage=new ArrayList<>();
+    ArrayList<EdgeMethodPackage> listOfTempEdgeMethodPackage=new ArrayList<>();
+    ArrayList<EdgePackage> listOfTempEdgePackage =new ArrayList<EdgePackage>();
+    private static ArrayList<NodePackage> ListOfNodePackage=new ArrayList<NodePackage>();
+    private static ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage=new ArrayList<>();
+    private static ArrayList<EdgePackage> listOfEdgePackage =new ArrayList<EdgePackage>();
 
-    private static ArrayList<Package>  listOfWorkPackages=new ArrayList<Package>();
-    private static ArrayList<EdgePackage> listOfWorkEdges=new ArrayList<EdgePackage>();
+    public DataModules(ArrayList<String> listOFNamesNodePackage, ArrayList<EdgeMethodPackage> listOfTempEdgeMethodPackage, ArrayList<EdgePackage> listOfTempEdgePackage) {
+        this.listOFNamesNodePackage = listOFNamesNodePackage;
+        this.listOfTempEdgeMethodPackage = listOfTempEdgeMethodPackage;
+        this.listOfTempEdgePackage = listOfTempEdgePackage;
+    }
 
 
     //todo: przerobienie list z Package i Edge Package na listy stringowe
@@ -24,12 +26,27 @@ public class DataModules {
         4.liste edgow metod (edge metoda-metoda, weight)
      */
 
-    public static ArrayList<EdgeMethodPackage> getListOfMethodEdges() {
-        return listOfMethodEdges;
+    public static ArrayList<NodePackage> getListOfNodePackage() {
+        return ListOfNodePackage;
     }
 
-    public static void setListOfMethodEdges(ArrayList<EdgeMethodPackage> listOfMethodEdges) {
-        DataModules.listOfMethodEdges = listOfMethodEdges;
+    public static void setListOfNodePackage(ArrayList<NodePackage> listOfNodePackage) {
+        ListOfNodePackage = listOfNodePackage;
     }
 
+    public static ArrayList<EdgeMethodPackage> getListOfEdgeMethodPackage() {
+        return listOfEdgeMethodPackage;
+    }
+
+    public static void setListOfEdgeMethodPackage(ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage) {
+        DataModules.listOfEdgeMethodPackage = listOfEdgeMethodPackage;
+    }
+
+    public static ArrayList<EdgePackage> getListOfEdgePackage() {
+        return listOfEdgePackage;
+    }
+
+    public static void setListOfEdgePackage(ArrayList<EdgePackage> listOfEdgePackage) {
+        DataModules.listOfEdgePackage = listOfEdgePackage;
+    }
 }

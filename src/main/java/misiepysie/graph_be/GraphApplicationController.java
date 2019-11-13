@@ -12,6 +12,10 @@ import misiepysie.graph_be.Data.EdgeApi;
 import misiepysie.graph_be.GraphObjects.Edge;
 import misiepysie.graph_be.GraphObjects.Node;
 import org.springframework.web.bind.annotation.*;
+import misiepysie.graph_be.Callgraph.DataCallGraph;
+import misiepysie.graph_be.Callgraph.AnalyzeCalls;
+import misiepysie.graph_be.Callgraph.EdgeMethod;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -87,6 +91,9 @@ public class GraphApplicationController {
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
+                System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
+
+
                 File output = new File(System.getProperty("user.home")+"\\output.txt");
 
 
@@ -100,13 +107,19 @@ public class GraphApplicationController {
 
                 AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
 
+                System.out.println(temp.getMethodsFromArray());
+                System.out.println(temp.getMethodsToArray());
+                System.out.println(temp.getEdgesOfMethods());
+                System.out.println("\n\n\n\n"+System.getProperty("user.home")+"\\output.txt");
 
             }
 
             catch(InterruptedException e){
+                System.out.println("syplo sie w api");
                 e.printStackTrace();
             }
             catch(IOException e){
+                System.out.println("Api sie syplo w drugim");
                 e.printStackTrace();
             }
 

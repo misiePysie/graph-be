@@ -8,6 +8,7 @@ public class EdgeMethodPackage {
     public EdgeMethodPackage(String to, String from) {
         this.to = to;
         this.from = from;
+        this.weight=1;
     }
 
     public EdgeMethodPackage(String to, String from, int weight) {

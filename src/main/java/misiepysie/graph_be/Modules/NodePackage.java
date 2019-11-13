@@ -2,29 +2,26 @@ package misiepysie.graph_be.Modules;
 
 import java.util.ArrayList;
 
-public class MisiePysiePackage {
+public class NodePackage {
+
     private String name;
     private ArrayList<String> methods=new ArrayList<>();
+    private int weight;
 
-    public MisiePysiePackage(String name) {
+    public NodePackage(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
     public ArrayList<String> getMethods() {
         return methods;
     }
 
-    public void setMethods(ArrayList<String> methods) {
-        this.methods = methods;
+    public void setName(String name) {
+        this.name = name;
     }
-
 
 }
