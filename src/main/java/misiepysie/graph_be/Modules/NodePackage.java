@@ -24,4 +24,12 @@ public class NodePackage {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "NodePackage{" +
+                "name='" + name + '\'' +
+                ", methods=" + methods +
+                ", weight=" + weight +
+                '}';
+    }
 }

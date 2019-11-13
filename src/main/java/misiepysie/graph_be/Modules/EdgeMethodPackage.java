@@ -26,4 +26,12 @@ public class EdgeMethodPackage {
     }
 
 
+    @Override
+    public String toString() {
+        return "EdgeMethodPackage{" +
+                "to='" + to + '\'' +
+                ", from='" + from + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }

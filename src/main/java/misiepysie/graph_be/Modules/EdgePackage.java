@@ -37,4 +37,13 @@ public class EdgePackage {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
+    @Override
+    public String toString() {
+        return "EdgePackage{" +
+                "to='" + to + '\'' +
+                ", from='" + from + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }

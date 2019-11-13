@@ -5,9 +5,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class DataCallGraph {
+
     private static ArrayList<String> methodsToArray=new ArrayList<String>();
     private static ArrayList<String> methodsFromArray=new ArrayList<String>();
-
     private static ArrayList<EdgeMethod> edgesOfMethods=new ArrayList<EdgeMethod>();
 
     public DataCallGraph(ArrayList<String> methodsToArray, ArrayList<String> methodsFromArray, ArrayList<EdgeMethod> edgesOfMethods) {
