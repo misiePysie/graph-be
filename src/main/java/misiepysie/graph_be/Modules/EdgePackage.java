@@ -3,11 +3,15 @@ package misiepysie.graph_be.Modules;
 public class EdgePackage {
     private  String to;
     private  String from;
-    private int weight; //weight jako suma wszystich weightow z modułow
+    private int weight=1; //weight jako suma wszystich weightow z modułow
 
     public EdgePackage(String to, String from) {
         this.to = to;
         this.from = from;
+        this.weight=1;
+    }
+
+    public EdgePackage() {
     }
 
     public String getTo() {

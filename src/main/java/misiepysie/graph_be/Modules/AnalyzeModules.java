@@ -1,15 +1,12 @@
 package misiepysie.graph_be.Modules;
 
-import misiepysie.graph_be.Callgraph.DataCallGraph;
-
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class AnalyzeModules {
 
-        public static void analyzeModule(String path, DataCallGraph temp) throws FileNotFoundException {
+        public static void analyzeModule(String path, DataModules temp) throws FileNotFoundException {
 
             File calls = new File(path);
             System.out.println(path);
@@ -63,113 +60,120 @@ public class AnalyzeModules {
                         //wybieramy element przedostatni z tablicy ktory jest paczka (na przykładzie to jest graphobject)
                         nameModuleFrom = itemsFrom.get(itemsFrom.size() - 1);
 
-                        for ( NodePackage e : DataModules.getListOfNodePackage() ) {
-                            if(!(e.getName().equals(nameModuleTo)) && !( e.getName().equals(nameModuleFrom)) ){
-                                NodePackage nodePackageOne = new NodePackage(nameModuleTo);
-                                NodePackage nodePackageTwo = new NodePackage(nameMethodFrom);
-                                DataModules.getListOfNodePackage().add(nodePackageOne);
-                                DataModules.getListOfNodePackage().add(nodePackageTwo);
-
-                            }
-                            else if(!(e.getName().equals(nameModuleTo)) && ( e.getName().equals(nameModuleFrom))){
-                                NodePackage nodePackage = new NodePackage(nameModuleTo);
-
-                            }
-                            else if((e.getName().equals(nameModuleTo)) && !( e.getName().equals(nameModuleFrom))){
-                                NodePackage nodePackage = new NodePackage(nameMethodFrom);
-                            }else{
-                                // dane dwa wezly juz istnieja ? ink weight?
-                            }
-
-                        }
+                        EdgePackage tempEdgePackage;
+                        EdgeMethodPackage tempEdgeMethodPackage;
+                        NodePackage nodePackageTo;
+                        NodePackage nodePackageFrom;
 
 
-//
-//                        if(!DataModules.getListOfPackagesFrom().contains(nameModuleFrom)){
-//
-//                            DataModules.addElementToListOfPackagesFrom(nameModuleFrom);
-//                            NodePackage objectFrom = new NodePackage(nameModuleFrom);
-//                            DataModules.getListOfNodePackage().add(objectFrom);
-//                            if(!objectFrom.getMethods().contains(nameMethodFrom)) {
-//                                objectFrom.getMethods().add(nameMethodFrom);
-//                            }else{
-//                                //jeśli zawieraja waga +
-//                            }
-//
-//                        }else{
-//                            for(int i=0; i< DataModules.getListOfNodePackage().size() ;i++){
-//                                if(DataModules.getListOfNodePackage().get(i).getName() == nameModuleFrom){
-//                                    if(!DataModules.getListOfNodePackage().get(i).getMethods().contains(nameMethodFrom)){
-//                                        DataModules.getListOfNodePackage().get(i).getMethods().add(nameMethodFrom);
-//                                    }else{
-//                                        //jeśli zwawiera dana metode zwieksz wagE metody
-//                                    }
-//                                }
-//                            }
-//                        }
+                        if (!DataModules.getListOfNodePackage().toString().contains(nameModuleTo) && !DataModules.getListOfNodePackage().toString().contains(nameModuleFrom)) { //jezeli nie mamy zadnej z paczek
 
-                        //tworzymy sobie krawędzi (paczka z paczka) oraz (paczka z metoda)
+                            nodePackageTo = new NodePackage(nameModuleTo); //tworzymy sobie obie paczki
+                            nodePackageFrom = new NodePackage(nameMethodFrom);
 
+                            nodePackageTo.getMethods().add(nameMethodTo);//dodajemy metody do listy
+                            nodePackageFrom.getMethods().add(nameMethodFrom);
 
+                            DataModules.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
+                            DataModules.getListOfNodePackage().add(nodePackageFrom);
 
+                            tempEdgePackage = new EdgePackage(nameModuleTo, nameModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
+                            DataModules.getListOfEdgePackage().add(tempEdgePackage);
 
-                        if(DataModules.getListOfEdgePackage().size() == 0){
-                            EdgePackage edgePackage = new EdgePackage(nameModuleTo,nameModuleFrom);
-                            edgePackage.setWeight(1);
-                            EdgeMethodPackage edgeMethodPackageA = new EdgeMethodPackage(nameMethodTo,nameModuleTo);
-                            EdgeMethodPackage edgeMethodPackageB = new EdgeMethodPackage(nameMethodFrom,nameModuleFrom);
-
-                        }else{
-                            for(int i=0; i< DataModules.getListOfEdgePackage().size() ;i++){
-                                if(DataModules.getListOfEdgePackage().get(i).getFrom() == nameModuleFrom && DataModules.getListOfEdgePackage().get(i).getTo() == nameModuleTo){
-                                    int currentWeight = DataModules.getListOfEdgePackage().get(i).getWeight() + 1;
-                                    DataModules.getListOfEdgePackage().get(i).setWeight(currentWeight);
-                                }
-                                else{
-                                    EdgePackage edgePackage = new EdgePackage(nameModuleTo,nameModuleFrom);
-                                    EdgeMethodPackage edgeMethodPackageA = new EdgeMethodPackage(nameMethodTo,nameModuleTo);
-                                    EdgeMethodPackage edgeMethodPackageB = new EdgeMethodPackage(nameMethodFrom,nameModuleFrom);
-                                    edgePackage.setWeight(1);
-
+                            tempEdgeMethodPackage = new EdgeMethodPackage(nameModuleTo, nameMethodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+                            DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                        } else if (!DataModules.getListOfNodePackage().toString().contains(nameModuleTo) && DataModules.getListOfNodePackage().toString().contains(nameModuleFrom)) { //jezeli Nie mamy paczki to ale mamy paczke from
+                            //obsluga PACZKI TO
+                            nodePackageTo = new NodePackage(nameModuleTo); //musimy stworzyc paczke to
+                            nodePackageTo.getMethods().add(nameMethodTo); //dodajemy sobie tam metode
+                            DataModules.getListOfNodePackage().add(nodePackageTo); //dodajemy paczke do listy paczek
+                            //OBSLUGA PACZKI FROM i edge METHOD-PACKAGE
+                            for (NodePackage e : DataModules.getListOfNodePackage()) {
+                                if (e.getMethods().contains(nameMethodFrom)) { // jezeli paczka from zawiera metode from
+                                    tempEdgeMethodPackage = new EdgeMethodPackage(nameMethodFrom, nameModuleTo); //tworzymy tymczasowy obiekt
+                                    DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                } else { //jezeli paczka from nie zawiera metody from
+                                    e.getMethods().add(nameMethodFrom); //dodajemy tą metode do listy
+                                    tempEdgeMethodPackage = new EdgeMethodPackage(nameMethodFrom, nameModuleTo); //twozrymy edge nowego;
+                                    DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage); //dodajemy go do listy
                                 }
                             }
+                            //OBSLUGA EDGE PACKAGE-PACKAGE
+                            tempEdgePackage = new EdgePackage(nameModuleTo, nameModuleFrom);
+                            DataModules.getListOfEdgePackage().add(tempEdgePackage);
+                        } else if (DataModules.getListOfNodePackage().toString().contains(nameModuleTo) && !DataModules.getListOfNodePackage().toString().contains(nameModuleFrom)) { //mamy paczke to ale nie mamy paczki from
+                            //obsluga PACZKI FROM
+                            nodePackageFrom = new NodePackage(nameModuleFrom); //musimy stworzyc paczke from
+                            nodePackageFrom.getMethods().add(nameMethodFrom); //dodajemy sobie tam metode
+                            DataModules.getListOfNodePackage().add(nodePackageFrom); //dodajemy paczke do listy paczek
+
+                            //OBSLUGA PACZKI TO i edge METHOD-PACKAGE
+                            for (NodePackage e : DataModules.getListOfNodePackage()) {
+                                if (e.getMethods().contains(nameMethodTo)) { // jezeli paczka to zawiera metode to
+                                    tempEdgeMethodPackage = new EdgeMethodPackage(nameMethodFrom, nameModuleTo); //to poprostu tworzymy edge mathod-package i dodajemy do do listy
+                                    DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                } else { //jezeli paczka to nie zawiera metody to
+                                    e.getMethods().add(nameMethodTo); //dodajemy tą metode do listy
+                                    tempEdgeMethodPackage = new EdgeMethodPackage(nameMethodFrom, nameModuleTo); //i dopiero tworzymy edge i dodajemy do listy
+                                    DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                }
+                            }
+                            //OBSLUGA EDGE PACKAGE-PACKAGE
+                            tempEdgePackage = new EdgePackage(nameModuleTo, nameModuleFrom);
+                            DataModules.getListOfEdgePackage().add(tempEdgePackage);
+                        } else { //obie paczki są na liscie
+                            for (NodePackage e : DataModules.getListOfNodePackage()) { //przechodzimy po liscie paczek;
+                                //OBSLUGA PACZKI FROM
+                                if (e.getName().equals(nameModuleFrom))  //jezeli natknęlismy sie na paczke from
+                                {
+                                    nodePackageFrom = e; //przypisujemy sobie paczke From do tymczasowej zmiennej
+                                    if (!e.getMethods().contains(nameMethodFrom)) //sprawdzamy czy nasza paczka ma metode ktora wywoluje
+                                    {
+                                        e.getMethods().add(nameMethodFrom); //jesli nie to ją dodajemy
+                                    }
+                                } //OBSLUGA PACZKI TO
+                                if (e.getName().equals(nameModuleTo)) { //jezeli natknelismy sie na paczke to
+                                    nodePackageTo = e;  //przypisujemy sobie paczke From do tymczasowej zmiennej
+                                    if (!e.getMethods().contains(nameMethodTo)) //sprawdzamy czy nasza paczka ma metode ktora jest wywolywana
+                                    {
+                                        e.getMethods().add(nameMethodTo); //jesli nie to ją dodajemy
+                                    }
+
+                                }
+                                //OBSLUGA edgea METHOD-PACKAGE
+                                tempEdgeMethodPackage = new EdgeMethodPackage(nameMethodFrom, nameModuleTo); //tworzymy tymczasowy obiekt
+                                if (DataModules.getListOfEdgeMethodPackage().contains(tempEdgeMethodPackage)) {//sprawdzamy czy nasz obiekt jest na liscie
+                                    for (EdgeMethodPackage eMP : DataModules.getListOfEdgeMethodPackage() //jesli jest na liscie to przechodzimy przez liste
+                                    ) {
+                                        if (eMP == tempEdgeMethodPackage) //jesli natrafimy na taki sam obiekt
+                                        {
+                                            eMP.setWeight(eMP.getWeight() + 1); //to zwiekszamy wage
+                                        }
+                                    }
+                                } else { //jezeli nie ma go na liscie to
+                                    DataModules.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage); //dodajemy go do listy
+                                }
+                                //OBSLUGA egdea PACKAGE-PACKAGE
+                                tempEdgePackage = new EdgePackage(nameModuleFrom, nameModuleTo); //tworzymy tymczasowego edgea
+                                if (DataModules.getListOfEdgePackage().contains(tempEdgePackage)) {//sprawdzamy czy nasz obiekt jest na liscie
+                                    for (EdgePackage eP : DataModules.getListOfEdgePackage() //jesli jest na liscie to przechodzimy przez liste
+                                    ) {
+                                        if (eP == tempEdgePackage) //jesli natrafimy na taki sam obiekt
+                                        {
+                                            eP.setWeight(eP.getWeight() + 1); //to zwiekszamy wage
+                                        }
+                                    }
+                                }
+                            }
+
                         }
-
-
-
-                        /*todo: to samo robimy dla To tyle, że musimy uwzglednic ze dana paczka moze istniec, zapisujemy tą nazwe do packageTo*/
-
-                        //M:misiepysie.graph_be. Callgraph.AnalyzeCalls:analyzeCallGraph(java.lang.String,misiepysie.graph_be.Callgraph.DataCallGraph)
-                        //(S)misiepysie.graph_be.Callgraph.DataCallGraph:getMethodsFromArray()
-
-
-                        int weight=1;
-                        boolean isEdgeAdded=false;
-//                        for (EdgeMethodPackage e: DataModules.getListOfMethodEdges()) {
-//
-//                            if(e.toString().equals(new EdgeMethodPackage(nameMethodTo,nameMethodFrom).toString())) {
-//                                weight++;
-//                                e.setWeight(weight);
-//                                isEdgeAdded=true;
-//                            }
-//                        }
-                        if(isEdgeAdded==false)
-                        {
-
-                            //todo: tu zamiast nameTo dalemy packageTo
-                            //DataModules.getListOfMethodEdges().add(new EdgeMethodPackage(nameMethodTo,nameMethodFrom,weight));
-
-                            //todo:zamienic ostatnia lininijke na przesylanie z waga (z tą na dole) to Do Norbiego jak ogarnie przesyłanie w weight
-                            //getEdgesOfMethods().add(new EdgeMethod(methodTo,methodFrom,weight));
-                        }
-                        //todo: analogiczne postepowanie dla EdgePackage tylko zamiast nameTo dajemy packageTo za zamiast EdgeFrom dajemy PackageFrom
-                        //todo: z wagą w samych paczkach bedzie inaczej: tutaj trzeba to ustawic:
-                        // e.setWeight(e.geWeight()++) w forze
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            DataModules.getListOfEdgePackage().forEach(x-> System.out.println(x));
         }
 
 
