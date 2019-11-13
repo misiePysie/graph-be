@@ -20,6 +20,11 @@ public class Node {
 
 
     }
+
+    public Node(String label) {
+        this.label = label;
+    }
+
     public double getFileSize() {
         return fileSize;
     }

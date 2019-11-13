@@ -87,9 +87,6 @@ public class GraphApplicationController {
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
-                System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
-
-
                 File output = new File(System.getProperty("user.home")+"\\output.txt");
 
 
@@ -103,18 +100,13 @@ public class GraphApplicationController {
 
                 AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
 
-                System.out.println(temp.getMethodsFromArray());
-                System.out.println(temp.getMethodsToArray());
-                System.out.println(temp.getEdgesOfMethods());
 
             }
 
             catch(InterruptedException e){
-                System.out.println("syplo sie w api");
                 e.printStackTrace();
             }
             catch(IOException e){
-                System.out.println("Api sie syplo w drugim");
                 e.printStackTrace();
             }
 
