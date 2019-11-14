@@ -46,12 +46,9 @@ public class GraphApplicationController {
             AnalyzeFile.listAllFilesNames(temp.getBackendSrc());
             AnalyzeFile.listAllFilesNames(temp.getFrontendSrc());
 
-
             AnalyzeFile.createNodeForEachFile();
 
             dataTemp.getNodesData().addAll(AnalyzeFile.getListOfNodes());
-
-
 
             AnalyzeFile.createEdge();
             Data.getEdgesData().addAll(AnalyzeFile.getListOfEdges());
@@ -87,10 +84,9 @@ public class GraphApplicationController {
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
-                File output = new File(System.getProperty("user.home")+"\\output.txt");
+                File output = new File(System.getProperty("user.home")+File.separator+"output.txt");
 
-
-                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
+                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+File.separator+"javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
                 pb.redirectErrorStream(false);
                 pb.redirectOutput(output);
 
@@ -98,9 +94,7 @@ public class GraphApplicationController {
 
                 process.waitFor();
 
-                AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+"\\output.txt",temp);
-
-
+                AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+File.separator+"output.txt",temp);
             }
 
             catch(InterruptedException e){
