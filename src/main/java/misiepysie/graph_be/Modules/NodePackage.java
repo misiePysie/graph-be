@@ -6,7 +6,7 @@ public class NodePackage {
 
     private String name;
     private ArrayList<String> methods=new ArrayList<>();
-    private int weight;
+
 
     public NodePackage(String name) {
         this.name = name;
@@ -29,7 +29,6 @@ public class NodePackage {
         return "NodePackage{" +
                 "name='" + name + '\'' +
                 ", methods=" + methods +
-                ", weight=" + weight +
                 '}';
     }
 }

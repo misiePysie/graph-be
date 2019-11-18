@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class DataModules {
 
-    private static ArrayList<NodePackage> ListOfNodePackage=new ArrayList<NodePackage>();
-    private static ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage=new ArrayList<>();
-    private static ArrayList<EdgePackage> listOfEdgePackage =new ArrayList<EdgePackage>();
+    private  ArrayList<NodePackage> ListOfNodePackage=new ArrayList<NodePackage>();
+    private  ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage=new ArrayList<>();
+    private  ArrayList<EdgePackage> listOfEdgePackage =new ArrayList<EdgePackage>();
 
     public DataModules(ArrayList<NodePackage> ListOfNodePackage,ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage,ArrayList<EdgePackage> listOfEdgePackage) {
     this.ListOfNodePackage=ListOfNodePackage;
@@ -15,27 +15,36 @@ public class DataModules {
     }
 
 
-    public static ArrayList<NodePackage> getListOfNodePackage() {
+    public  ArrayList<NodePackage> getListOfNodePackage() {
         return ListOfNodePackage;
     }
 
-    public static void setListOfNodePackage(ArrayList<NodePackage> listOfNodePackage) {
+    public  void setListOfNodePackage(ArrayList<NodePackage> listOfNodePackage) {
         ListOfNodePackage = listOfNodePackage;
     }
 
-    public static ArrayList<EdgeMethodPackage> getListOfEdgeMethodPackage() {
+    public  ArrayList<EdgeMethodPackage> getListOfEdgeMethodPackage() {
         return listOfEdgeMethodPackage;
     }
 
-    public static void setListOfEdgeMethodPackage(ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage) {
-        DataModules.listOfEdgeMethodPackage = listOfEdgeMethodPackage;
+    public  void setListOfEdgeMethodPackage(ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage) {
+        listOfEdgeMethodPackage = listOfEdgeMethodPackage;
     }
 
-    public static ArrayList<EdgePackage> getListOfEdgePackage() {
+    public  ArrayList<EdgePackage> getListOfEdgePackage() {
         return listOfEdgePackage;
     }
 
-    public static void setListOfEdgePackage(ArrayList<EdgePackage> listOfEdgePackage) {
-        DataModules.listOfEdgePackage = listOfEdgePackage;
+    public  void setListOfEdgePackage(ArrayList<EdgePackage> listOfEdgePackage) {
+        listOfEdgePackage = listOfEdgePackage;
+    }
+
+    @Override
+    public String toString() {
+        return "DataModules{" +
+                "ListOfNodePackage=" + ListOfNodePackage +
+                ", listOfEdgeMethodPackage=" + listOfEdgeMethodPackage +
+                ", listOfEdgePackage=" + listOfEdgePackage +
+                '}';
     }
 }

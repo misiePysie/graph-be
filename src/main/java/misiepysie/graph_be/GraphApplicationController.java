@@ -11,6 +11,7 @@ import misiepysie.graph_be.Data.DirectoryPath;
 import misiepysie.graph_be.Data.EdgeApi;
 import misiepysie.graph_be.GraphObjects.Edge;
 import misiepysie.graph_be.GraphObjects.Node;
+import misiepysie.graph_be.Modules.*;
 import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -107,4 +108,58 @@ public class GraphApplicationController {
             return temp.toString();
 
         }
+    @ResponseBody
+    @RequestMapping(path="/modules", method=RequestMethod.POST)
+    public String moduleAnalize(@RequestBody String path){
+
+        Gson gson = new Gson();
+
+        Path tempPath = gson.fromJson(path, Path.class);
+        ArrayList<NodePackage> tempNodes = new ArrayList<NodePackage>();
+        ArrayList<EdgeMethodPackage> tempEdgeMethodPackage = new ArrayList<EdgeMethodPackage>();
+        ArrayList<EdgePackage> tempEdgePackage = new ArrayList<EdgePackage>();
+
+        DataModules temp = new DataModules(tempNodes,tempEdgeMethodPackage,tempEdgePackage);
+        try{
+            System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
+
+            File output = new File(System.getProperty("user.home")+"\\output.txt");
+
+            ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
+            pb.redirectErrorStream(false);
+            pb.redirectOutput(output);
+
+            Process process=pb.start();
+
+            process.waitFor();
+
+            AnalyzeModules.analyzeModule(System.getProperty("user.home")+"\\output.txt",temp);
+
+            System.out.println("\n\nNodes:\n");
+            for (NodePackage s:temp.getListOfNodePackage()
+                 ) {
+                System.out.println(s.getName());
+
+            }
+
+
+            System.out.println("\n\n"+temp.getListOfNodePackage());
+            System.out.println("\n\n"+temp.getListOfEdgeMethodPackage());
+            System.out.println("\n\n"+temp.getListOfEdgePackage());
+            System.out.println("\n\n\n\n"+System.getProperty("user.home")+"\\output.txt");
+
+        }
+
+        catch(InterruptedException e){
+            System.out.println("syplo sie w api");
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            System.out.println("Api sie syplo w drugim");
+            e.printStackTrace();
+        }
+
+        return temp.toString();
+
+    }
 }
