@@ -65,15 +65,12 @@ public class AnalyzeModules {
                             nodePackageTo.getMethods().add(methodTo);//dodajemy metody do listy
                             nodePackageTo.getMethods().add(methodFrom);
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
-                          System.out.println("Pierwsze dodanie node'a:"+nodePackageTo);
 
                             tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
                             temp.getListOfEdgePackage().add(tempEdgePackage);
-                          System.out.println("Pierwsze dodanie edge PP: "+tempEdgePackage);
 
                             tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                             temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
-                           System.out.println("Pierwsze dodanie MP: "+tempEdgeMethodPackage);
 
                         }else {
                             nodePackageTo = new NodePackage(pathModuleTo); //tworzymy sobie obie paczki
@@ -84,17 +81,12 @@ public class AnalyzeModules {
 
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
                             temp.getListOfNodePackage().add(nodePackageFrom);
-                            System.out.println("Dodanie kolejnego node'a : "+nodePackageTo);
-                            System.out.println("Dodanie kolejnego node'a : "+nodePackageFrom);
-
 
                             tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
                             temp.getListOfEdgePackage().add(tempEdgePackage);
-                            System.out.println("Dodanie kolejnego edge'a PP: "+tempEdgePackage);
 
                             tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                             temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
-                            System.out.println("Dodanie kolejnego edge'a MP: "+tempEdgeMethodPackage);
                            // System.out.println(temp.getListOfNodePackage());
                         }
                     } else {

@@ -69,41 +69,30 @@ public class AnalyzeFile {
        listOfNodes.forEach(x-> System.out.println(x));
         for (Node n1:listOfNodes
              ) {
-            System.out.println("To: "+n1);
             try {
                 Stream<String> lines = Files.lines(Paths.get(n1.getId()));
                 List<String> content = lines.collect(Collectors.toList());
                 for (String s : content
                 ) {
                     if (searchImports(s)) {
-                        System.out.println("True");
-                        System.out.println(s);
                         numberOfConnections = countConnections(s);
-                        System.out.println(numberOfConnections);
                         for (Node n2 : listOfNodes
                         ) {
                             if (!(n1.getId().contains(searchAnotherNode(s))) && n2.getId().contains(searchAnotherNode(s))) {
                                 if (searchAnotherNode(s).contains("style")) {
                                     if (n1.getLabel().contains("footer") || n1.getLabel().contains("header")) {
-                                        System.out.println("From :" + listOfNodes.get(listOfNodes.indexOf(n1) + 1));
-                                        System.out.println(listOfNodes.get(listOfNodes.indexOf(n1) + 1).getLabel());
+
                                         edge = new Edge(listOfNodes.get(listOfNodes.indexOf(n1) + 1), n1, numberOfConnections);
                                         listOfEdges.add(edge);
                                     } else if (n1.getLabel().contains("graphNetwork")) {
-                                        System.out.println("From :" + listOfNodes.get(listOfNodes.indexOf(n1) + 3));
-                                        System.out.println(listOfNodes.get(listOfNodes.indexOf(n1) + 3).getLabel());
                                         edge = new Edge(listOfNodes.get(listOfNodes.indexOf(n1) + 3), n1, numberOfConnections);
                                         listOfEdges.add(edge);
 
                                     } else {
-                                        System.out.println("From :" + n2);
-                                        System.out.println(n2.getLabel());
                                         edge = new Edge(n2, n1, numberOfConnections);
                                         listOfEdges.add(edge);
                                     }
                                 } else {
-                                    System.out.println("From :" + n2);
-                                    System.out.println(n2.getLabel());
                                     edge = new Edge(n2, n1, numberOfConnections);
                                     listOfEdges.add(edge);
                                 }
@@ -120,47 +109,10 @@ public class AnalyzeFile {
                 e.printStackTrace();
             }
         }
-//                String lineWithImport=null;
-//                for (int i = 0; i < content.size(); i++) {
-//                    lineWithImport = searchImports(content.get(i));
-//                    System.out.println(lineWithImport);
-//                   // System.out.println(lineWithImport+"\n");
-//
-//                    if (!(lineWithImport == null)) {
-//                        numberOfConnections = countConnections(lineWithImport);
-//
-//                        for (int j = 0; j < listOfNodes.size(); j++) {
-//                            //System.out.println(listOfNodes.get(i));
-//
-//                            if (listOfNodes.get(j).getWeight().equals(searchAnotherNode(lineWithImport)) && !(listOfNodes.get(j).equals(listOfNodes.get(k)) ));
-//                            node2 = listOfNodes.get(j);
-//                            edge = new Edge(node2, listOfNodes.get(k), numberOfConnections);
-//                            listOfEdges.add(edge);
-//                            break;
-//
-//                        }
-//
-//                    }
-//                    break;
-//                }
-//            }
-//            catch(IOException e) {
-//                System.err.format("IOException: %s%n", e);
-//            }
-//        }
 
     }
 
 
-//    public static int countingWordsInString(String descriptionFile, String keyWord ){
-//        int j = 0;
-//        Pattern p = Pattern.compile(keyWord);
-//        Matcher m = p.matcher( descriptionFile );
-//        while (m.find()) {
-//            j++;
-//        }
-//        return j;
-//    }
     public static boolean searchImports(String line) {
         if (line.startsWith("import")) {
             return true;
@@ -228,18 +180,15 @@ public class AnalyzeFile {
                 return anotherNode;
             }
 
-            // System.out.println(anotherNode);
 
         }else if (lineWithImport.contains("graph_be")) { //dla plikow java'owych
             ind = lineWithImport.indexOf(".graph_be");
             if (lineWithImport.contains("Data")) {
                 anotherNode = lineWithImport.substring(ind + 15, lineWithImport.length() - 1);
-                System.out.println(anotherNode+".java");
                 return anotherNode+".java";
             }
             if (lineWithImport.contains("GraphObjects")) {
                 anotherNode = lineWithImport.substring(ind + 23, lineWithImport.length() - 1);
-                System.out.println(anotherNode+".java");
                 return anotherNode+".java";
             }
         }

@@ -108,6 +108,9 @@ public class GraphApplicationController {
             return temp.toString();
 
         }
+
+    @CrossOrigin(origins = "http://localhost:8080")
+
     @ResponseBody
     @RequestMapping(path="/modules", method=RequestMethod.POST)
     public String moduleAnalize(@RequestBody String path){
@@ -121,7 +124,6 @@ public class GraphApplicationController {
 
         DataModules temp = new DataModules(tempNodes,tempEdgeMethodPackage,tempEdgePackage);
         try{
-            System.out.println("java -jar javacg-0.1-SNAPSHOT-static.jar "+tempPath.getPath()+" > " + System.getProperty("user.home")+"\\output.txt");
 
             File output = new File(System.getProperty("user.home")+"\\output.txt");
 
@@ -135,18 +137,6 @@ public class GraphApplicationController {
 
             AnalyzeModules.analyzeModule(System.getProperty("user.home")+"\\output.txt",temp);
 
-            System.out.println("\n\nNodes:\n");
-            for (NodePackage s:temp.getListOfNodePackage()
-                 ) {
-                System.out.println(s.getName());
-
-            }
-
-
-            System.out.println("\n\n"+temp.getListOfNodePackage());
-            System.out.println("\n\n"+temp.getListOfEdgeMethodPackage());
-            System.out.println("\n\n"+temp.getListOfEdgePackage());
-            System.out.println("\n\n\n\n"+System.getProperty("user.home")+"\\output.txt");
 
         }
 
@@ -159,7 +149,7 @@ public class GraphApplicationController {
             e.printStackTrace();
         }
 
-        return temp.toString();
+        return gson.toJson(temp);
 
     }
 }
