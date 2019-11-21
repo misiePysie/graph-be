@@ -1,5 +1,7 @@
 package misiepysie.graph_be.Modules;
 
+import misiepysie.graph_be.Callgraph.NodeMethod;
+
 import java.io.*;
 
 public class AnalyzeModules {
@@ -18,6 +20,8 @@ public class AnalyzeModules {
         String[] submodulesFrom;
         String[] subSubModulesFrom;
 
+        String temporary1,temporary2;
+
         try {
 
             while ((line = reader.readLine()) != null) {
@@ -31,7 +35,9 @@ public class AnalyzeModules {
 
                     //TO
                     submodulesTo = modules[0].split(":");
-                    methodTo = submodulesTo[submodulesTo.length - 1];//nazwa metody to
+                    temporary1 = submodulesTo[submodulesTo.length - 1];//nazwa metody to
+                    temporary2=submodulesTo[submodulesTo.length-1].substring(temporary1.indexOf('(')+1,temporary1.indexOf(")"));
+                    methodTo=temporary1.replace(temporary2,"");
                     subSubModulesTo = submodulesTo[1].split("\\.");
                     if ((subSubModulesTo[subSubModulesTo.length - 2]).equals("graph_be")) {
                         pathModuleTo = subSubModulesTo[subSubModulesTo.length - 2];
@@ -40,7 +46,9 @@ public class AnalyzeModules {
                     }
                     //FROM
                     submodulesFrom = modules[1].split(":");
-                    methodFrom = submodulesFrom[submodulesFrom.length - 1];
+                    temporary1 = submodulesFrom[submodulesFrom.length - 1];//nazwa metody to
+                    temporary2=submodulesFrom[submodulesFrom.length-1].substring(temporary1.indexOf('(')+1,temporary1.indexOf(")"));
+                    methodFrom = temporary1.replace(temporary2,"");
                     subSubModulesFrom = submodulesFrom[0].split("\\.");
                     if ((subSubModulesFrom[subSubModulesFrom.length - 2]).equals("graph_be")) {
                         pathModuleFrom = subSubModulesFrom[subSubModulesFrom.length - 2];
@@ -53,6 +61,8 @@ public class AnalyzeModules {
                     EdgeMethodPackage tempEdgeMethodPackage;
                     NodePackage nodePackageTo;
                     NodePackage nodePackageFrom;
+                    NodeMethod nodeMethodTo;
+                    NodeMethod nodeMethodFrom;
                     boolean contains=false;
                     boolean containsFrom=false;
                     boolean containsTo=false;
@@ -62,8 +72,11 @@ public class AnalyzeModules {
                         if(pathModuleFrom.equals(pathModuleTo))
                         {
                             nodePackageTo = new NodePackage(pathModuleTo);
-                            nodePackageTo.getMethods().add(methodTo);//dodajemy metody do listy
-                            nodePackageTo.getMethods().add(methodFrom);
+                            nodeMethodTo=new NodeMethod(methodTo);
+                            nodeMethodFrom=new NodeMethod(methodFrom);
+
+                            nodePackageTo.getMethods().add(nodeMethodTo);//dodajemy metody do listy
+                            nodePackageTo.getMethods().add(nodeMethodFrom);
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
 
                             tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
@@ -75,9 +88,10 @@ public class AnalyzeModules {
                         }else {
                             nodePackageTo = new NodePackage(pathModuleTo); //tworzymy sobie obie paczki
                             nodePackageFrom = new NodePackage(pathModuleFrom);
-
-                            nodePackageTo.getMethods().add(methodTo);//dodajemy metody do listy
-                            nodePackageFrom.getMethods().add(methodFrom);
+                            nodeMethodTo=new NodeMethod(methodTo);
+                            nodeMethodFrom=new NodeMethod(methodFrom);
+                            nodePackageTo.getMethods().add(nodeMethodTo);//dodajemy metody do listy
+                            nodePackageFrom.getMethods().add(nodeMethodFrom);
 
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
                             temp.getListOfNodePackage().add(nodePackageFrom);
@@ -99,11 +113,15 @@ public class AnalyzeModules {
                                 if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleFrom)) //sprawdzamy czy lista nodów zawiera nasza sciezke
                                 {
 
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().contains(methodTo)) //jesli tak to dodajemy metody jesli  ich nie ma
-                                        temp.getListOfNodePackage().get(i).getMethods().add(methodTo);
+                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodTo)) { //jesli tak to dodajemy metody jesli  ich nie ma
+                                        nodeMethodTo = new NodeMethod(methodTo);
+                                        temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodTo);
+                                    }
 
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().contains(methodFrom))
-                                        temp.getListOfNodePackage().get(i).getMethods().add(methodFrom);
+                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodFrom)) {
+                                        nodeMethodFrom = new NodeMethod(methodFrom);
+                                        temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodFrom);
+                                    }
 
 
                                     tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
@@ -137,8 +155,10 @@ public class AnalyzeModules {
                             if(!contains) //jesleli sciezka nie zawiera sie w liscie node'ow
                             {
                                 nodePackageFrom=new NodePackage(pathModuleFrom); //tworzymy jednego node'a, dodajemy do niego obie metody i dodajemy do listy
-                                nodePackageFrom.getMethods().add(methodFrom);
-                                nodePackageFrom.getMethods().add(methodTo);
+                                nodeMethodTo=new NodeMethod(methodTo);
+                                nodeMethodFrom=new NodeMethod(methodFrom);
+                                nodePackageFrom.getMethods().add(nodeMethodFrom);
+                                nodePackageFrom.getMethods().add(nodeMethodTo);
                                 temp.getListOfNodePackage().add(nodePackageFrom);
 
                                 tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
@@ -154,14 +174,18 @@ public class AnalyzeModules {
                             {
                                 if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleFrom)){
                                     containsFrom=true;
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().contains(methodFrom))
-                                        temp.getListOfNodePackage().get(i).getMethods().add(methodFrom);
+                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodFrom)) {
+                                        nodeMethodFrom = new NodeMethod(methodFrom);
+                                        temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodFrom);
+                                    }
                                 }
                                 if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleTo))
                                 {
                                     containsTo=true;
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().contains(methodTo)) //jesli tak to dodajemy metody jesli  ich nie ma
-                                        temp.getListOfNodePackage().get(i).getMethods().add(methodTo);
+                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodTo)) { //jesli tak to dodajemy metody jesli  ich nie ma
+                                        nodeMethodTo = new NodeMethod(methodTo);
+                                        temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodTo);
+                                    }
 
                                 }
                             }
@@ -198,13 +222,15 @@ public class AnalyzeModules {
                             if(!containsFrom)// jesli nie am ich na liscie nodow to tworzymy nody i dodajemy do listy
                             {
                                 nodePackageFrom=new NodePackage(pathModuleFrom);
-                                nodePackageFrom.getMethods().add(methodFrom);
+                                nodeMethodFrom=new NodeMethod(methodFrom);
+                                nodePackageFrom.getMethods().add(nodeMethodFrom);
                                 temp.getListOfNodePackage().add(nodePackageFrom);
                             }
                             if(!containsTo)
                             {
                                 nodePackageTo=new NodePackage(pathModuleTo);
-                                nodePackageTo.getMethods().add(methodTo);
+                                nodeMethodTo=new NodeMethod(methodTo);
+                                nodePackageTo.getMethods().add(nodeMethodTo);
                                 temp.getListOfNodePackage().add(nodePackageTo);
                             }
                             if(!contains)
