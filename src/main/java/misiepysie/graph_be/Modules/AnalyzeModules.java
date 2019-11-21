@@ -68,103 +68,128 @@ public class AnalyzeModules {
                     boolean containsTo=false;
 
 
-                    if (temp.getListOfNodePackage().isEmpty()) {
-                        if(pathModuleFrom.equals(pathModuleTo))
+                    if (temp.getListOfNodePackage().isEmpty()) { //lista nodow jest pusta
+                        if(pathModuleFrom.equals(pathModuleTo)) //obie sciezki sa takie same
                         {
                             nodePackageTo = new NodePackage(pathModuleTo);
                             nodeMethodTo=new NodeMethod(methodTo);
                             nodeMethodFrom=new NodeMethod(methodFrom);
 
+                            nodeMethodTo.setColor(nodePackageTo.getColor());
+                            nodeMethodFrom.setColor(nodePackageTo.getColor());
+
                             nodePackageTo.getMethods().add(nodeMethodTo);//dodajemy metody do listy
                             nodePackageTo.getMethods().add(nodeMethodFrom);
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
 
-                            tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
+                            tempEdgePackage = new EdgePackage(nodePackageTo, nodePackageTo); //tworzymy sobie edgea paczek i dodajemy do listy
                             temp.getListOfEdgePackage().add(tempEdgePackage);
 
-                            tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+                            tempEdgeMethodPackage = new EdgeMethodPackage(nodePackageTo, nodeMethodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                             temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
 
-                        }else {
+                        }else { //sciezki są rozne
                             nodePackageTo = new NodePackage(pathModuleTo); //tworzymy sobie obie paczki
                             nodePackageFrom = new NodePackage(pathModuleFrom);
                             nodeMethodTo=new NodeMethod(methodTo);
                             nodeMethodFrom=new NodeMethod(methodFrom);
+                            nodeMethodFrom.setColor(nodePackageFrom.getColor());
+                            nodeMethodTo.setColor(nodePackageTo.getColor());
+
                             nodePackageTo.getMethods().add(nodeMethodTo);//dodajemy metody do listy
                             nodePackageFrom.getMethods().add(nodeMethodFrom);
 
                             temp.getListOfNodePackage().add(nodePackageTo); //dodajemy paczki do listy paczek
                             temp.getListOfNodePackage().add(nodePackageFrom);
 
-                            tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
+                            tempEdgePackage = new EdgePackage(nodePackageTo, nodePackageFrom); //tworzymy sobie edgea paczek i dodajemy do listy
                             temp.getListOfEdgePackage().add(tempEdgePackage);
 
-                            tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+                            tempEdgeMethodPackage = new EdgeMethodPackage(nodePackageTo, nodeMethodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                             temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
                            // System.out.println(temp.getListOfNodePackage());
                         }
-                    } else {
+                    } else { //na liscie sa juz jakies paczki
+                        int indexTo;
+                        int indexFrom;
                         if(pathModuleFrom.equals(pathModuleTo)) //sciezki maja ta sama nazwe
                         {
                             contains=false;
 
-                            for(int i =0;i<temp.getListOfNodePackage().size();i++)
+                            for(int i =0;i<temp.getListOfNodePackage().size();i++) //przechodzimy po liscie nodow
                             {
-                                if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleFrom)) //sprawdzamy czy lista nodów zawiera nasza sciezke
-                                {
+                                if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleFrom)) //sprawdzamy czy lista nodów zawiera nasza sciezke,jezeli tak
+                                {   indexTo = i;
+                                    indexFrom = i;
+                                    if (!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodTo)) { //jesli tak to dodajemy metody jesli  ich nie ma
 
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodTo)) { //jesli tak to dodajemy metody jesli  ich nie ma
                                         nodeMethodTo = new NodeMethod(methodTo);
+                                        nodeMethodTo.setColor(temp.getListOfNodePackage().get(i).getColor());
                                         temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodTo);
                                     }
 
-                                    if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodFrom)) {
+                                    if (!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodFrom)) {
+
                                         nodeMethodFrom = new NodeMethod(methodFrom);
+                                        nodeMethodFrom.setColor(temp.getListOfNodePackage().get(i).getColor());
                                         temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodFrom);
                                     }
 
-
-                                    tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
-                                    for(int j=0;j<temp.getListOfEdgePackage().size();j++)
+                                    for(int j=0;j<temp.getListOfEdgePackage().size();j++) //przechodzimy po liscie paczek i sprawdzamy czy mamy juz takie polaczenie
                                     {
-                                        if(temp.getListOfEdgePackage().get(j).getFrom().equals(pathModuleFrom)&&temp.getListOfEdgePackage().get(j).getTo().equals(pathModuleTo)){
+                                        if(temp.getListOfEdgePackage().get(j).getFrom().getName().equals(pathModuleFrom)&&temp.getListOfEdgePackage().get(j).getTo().getName().equals(pathModuleTo)){
                                             contains=true;
-                                            temp.getListOfEdgePackage().get(j).setWeight(temp.getListOfEdgePackage().get(j).getWeight()+1);
+                                            temp.getListOfEdgePackage().get(j).setWeight(temp.getListOfEdgePackage().get(j).getWeight()+1);//jesli ammy to zwiekszamy wage
                                         }
                                     }
-                                    if(!contains)
+                                    if(!contains) //jesli nie mamy polaczenia package-package to sobie tworzymy
                                     {
+                                        tempEdgePackage = new EdgePackage(temp.getListOfNodePackage().get(indexTo), temp.getListOfNodePackage().get(indexFrom));
                                         temp.getListOfEdgePackage().add(tempEdgePackage);
                                     }
                                     contains=false;
-                                    tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+//                                    //tworzymy edgea metoda-paczka i dodajemy do listy
                                     for(int j=0;j<temp.getListOfEdgeMethodPackage().size();j++)
-                                    { //todo: zieniac
-                                        if(temp.getListOfEdgeMethodPackage().get(j).getFrom().equals(methodFrom)&&temp.getListOfEdgeMethodPackage().get(j).getTo().equals(pathModuleTo)){
+                                    {
+                                        if(temp.getListOfEdgeMethodPackage().get(j).getFrom().getName().equals(methodFrom)&&temp.getListOfEdgeMethodPackage().get(j).getTo().getName().equals(pathModuleTo)){
                                             contains=true;
                                             temp.getListOfEdgeMethodPackage().get(j).setWeight(temp.getListOfEdgeMethodPackage().get(j).getWeight()+1);
                                         }
                                     }
                                     if(!contains)
                                     {
-                                        temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                        for(int k=0;k<temp.getListOfNodePackage().size();k++)
+                                        {
+                                            for(int j=0;j<temp.getListOfNodePackage().get(k).getMethods().size();j++)
+                                            {
+                                                if(temp.getListOfNodePackage().get(k).getMethods().get(j).getName().equals(methodFrom)){
+                                                    nodeMethodFrom=temp.getListOfNodePackage().get(k).getMethods().get(j);
+                                                    tempEdgeMethodPackage = new EdgeMethodPackage(temp.getListOfNodePackage().get(indexTo), nodeMethodFrom);
+                                                    temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                                }
+                                            }
+                                        }
+
                                     }
                                     contains=true;
                                 }
                             }
                             if(!contains) //jesleli sciezka nie zawiera sie w liscie node'ow
                             {
+
                                 nodePackageFrom=new NodePackage(pathModuleFrom); //tworzymy jednego node'a, dodajemy do niego obie metody i dodajemy do listy
                                 nodeMethodTo=new NodeMethod(methodTo);
                                 nodeMethodFrom=new NodeMethod(methodFrom);
+                                nodeMethodTo.setColor(nodePackageFrom.getColor());
+                                nodeMethodFrom.setColor(nodePackageFrom.getColor());
                                 nodePackageFrom.getMethods().add(nodeMethodFrom);
                                 nodePackageFrom.getMethods().add(nodeMethodTo);
                                 temp.getListOfNodePackage().add(nodePackageFrom);
 
-                                tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
+                                tempEdgePackage = new EdgePackage(nodePackageFrom, nodePackageFrom); //tworzymy sobie edgea paczek i dodajemy do listy
                                 temp.getListOfEdgePackage().add(tempEdgePackage);
 
-                                tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+                                tempEdgeMethodPackage = new EdgeMethodPackage(nodePackageFrom, nodeMethodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                                 temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
                             }
 
@@ -176,6 +201,7 @@ public class AnalyzeModules {
                                     containsFrom=true;
                                     if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodFrom)) {
                                         nodeMethodFrom = new NodeMethod(methodFrom);
+                                        nodeMethodFrom.setColor(temp.getListOfNodePackage().get(i).getColor());
                                         temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodFrom);
                                     }
                                 }
@@ -184,6 +210,7 @@ public class AnalyzeModules {
                                     containsTo=true;
                                     if(!temp.getListOfNodePackage().get(i).getMethods().toString().contains(methodTo)) { //jesli tak to dodajemy metody jesli  ich nie ma
                                         nodeMethodTo = new NodeMethod(methodTo);
+                                        nodeMethodTo.setColor(temp.getListOfNodePackage().get(i).getColor());
                                         temp.getListOfNodePackage().get(i).getMethods().add(nodeMethodTo);
                                     }
 
@@ -192,30 +219,61 @@ public class AnalyzeModules {
                             if(containsFrom==containsTo==true)
                             {
                                 contains=false;
-                                tempEdgePackage = new EdgePackage(pathModuleTo, pathModuleFrom); //tworzymy sobie edgea paczek i dodajemy do listy
+//                                nodePackageTo=new NodePackage(pathModuleTo);
+//                                nodePackageFrom=new NodePackage(pathModuleFrom);
+//                                tempEdgePackage = new EdgePackage(nodePackageTo, nodePackageFrom); //tworzymy sobie edgea paczek i dodajemy do listy
                                 for(int j=0;j<temp.getListOfEdgePackage().size();j++)
                                 {
-                                    if(temp.getListOfEdgePackage().get(j).getFrom().equals(pathModuleFrom)&&temp.getListOfEdgePackage().get(j).getTo().equals(pathModuleTo)){
+                                    if(temp.getListOfEdgePackage().get(j).getFrom().getName().equals(pathModuleFrom)&&temp.getListOfEdgePackage().get(j).getTo().getName().equals(pathModuleTo)){
                                         contains=true;
                                         temp.getListOfEdgePackage().get(j).setWeight(temp.getListOfEdgePackage().get(j).getWeight()+1);
                                     }
                                 }
                                 if(!contains)
                                 {
+                                    tempEdgePackage=new EdgePackage();
+                                    for(int i=0;i<temp.getListOfNodePackage().size();i++)
+                                    {
+                                        if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleFrom)) {
+                                            nodePackageFrom = temp.getListOfNodePackage().get(i);
+                                            tempEdgePackage.setFrom(nodePackageFrom);
+                                        }
+
+
+                                        if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleTo)) {
+                                            nodePackageTo=temp.getListOfNodePackage().get(i);
+                                            tempEdgePackage.setTo(nodePackageTo);
+                                        }
+
+                                    }
                                     temp.getListOfEdgePackage().add(tempEdgePackage);
                                 }
                                 contains=false;
-                                tempEdgeMethodPackage = new EdgeMethodPackage(pathModuleTo, methodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
+//                                nodeMethodFrom=new NodeMethod(methodFrom);
+//                                tempEdgeMethodPackage = new EdgeMethodPackage(nodePackageTo, nodeMethodFrom); //tworzymy edgea metoda-paczka i dodajemy do listy
                                 for(int j=0;j<temp.getListOfEdgeMethodPackage().size();j++)
                                 {
-                                    if(temp.getListOfEdgeMethodPackage().get(j).getFrom().equals(methodFrom)&&temp.getListOfEdgeMethodPackage().get(j).getTo().equals(pathModuleTo)){
+                                    if(temp.getListOfEdgeMethodPackage().get(j).getFrom().getName().equals(methodFrom)&&temp.getListOfEdgeMethodPackage().get(j).getTo().getName().equals(pathModuleTo)){
                                         contains=true;
                                         temp.getListOfEdgeMethodPackage().get(j).setWeight(temp.getListOfEdgeMethodPackage().get(j).getWeight()+1);
                                     }
                                 }
                                 if(!contains)
                                 {
-                                    temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                    for(int i=0;i<temp.getListOfNodePackage().size();i++)
+                                    {
+                                     if(temp.getListOfNodePackage().get(i).getName().equals(pathModuleTo)){
+                                         for(int j=0;j<temp.getListOfNodePackage().get(i).getMethods().size();j++){
+                                             if(temp.getListOfNodePackage().get(i).getMethods().get(j).getName().equals(methodFrom)){
+                                                 nodeMethodFrom=temp.getListOfNodePackage().get(i).getMethods().get(j);
+                                                 tempEdgeMethodPackage=new EdgeMethodPackage(temp.getListOfNodePackage().get(i),nodeMethodFrom);
+                                                 temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
+                                             }
+                                         }
+                                     }
+                                    }
+
+
                                 }
                                 contains=true;
                             }
@@ -223,6 +281,8 @@ public class AnalyzeModules {
                             {
                                 nodePackageFrom=new NodePackage(pathModuleFrom);
                                 nodeMethodFrom=new NodeMethod(methodFrom);
+                                nodeMethodFrom.setColor(nodePackageFrom.getColor());
+
                                 nodePackageFrom.getMethods().add(nodeMethodFrom);
                                 temp.getListOfNodePackage().add(nodePackageFrom);
                             }
@@ -230,19 +290,49 @@ public class AnalyzeModules {
                             {
                                 nodePackageTo=new NodePackage(pathModuleTo);
                                 nodeMethodTo=new NodeMethod(methodTo);
+                                nodeMethodTo.setColor(nodePackageTo.getColor());
+
                                 nodePackageTo.getMethods().add(nodeMethodTo);
                                 temp.getListOfNodePackage().add(nodePackageTo);
+//                                for(int k=0;k<temp.getListOfNodePackage().size();k++)
+//                                {
+//                                    nodeMethodTo=new NodeMethod(methodTo);
+//                                    nodeMethodTo.setColor(temp.getListOfNodePackage().get(k).getColor());
+//                                    temp.getListOfNodePackage().get(k).getMethods().add(nodeMethodTo);
+//                                   if(temp.getListOfNodePackage().get(k).getName().equals(pathModuleTo))
+//                                   {
+//                                       nodePackageTo=temp.getListOfNodePackage().get(k);
+//
+//                                       nodePackageTo.getMethods().add(nodeMethodTo);
+//                                       temp.getListOfNodePackage().add(nodePackageTo);
+//                                   }
+//                                }
+//
+//                            }
+//                            if(!contains)
+//                            {
+//                                for(int k=0;k<temp.getListOfNodePackage().size();k++)
+//                                {
+//                                    for(int j=0;j<temp.getListOfNodePackage().get(k).getMethods().size();j++)
+//                                    {
+//                                        if(temp.getListOfNodePackage().get(k).getName().equals(pathModuleTo)){
+//                                            nodePackageTo=temp.getListOfNodePackage().get(k);
+//                                        }
+//                                    }
+//                                }
+//                                nodeMethodFrom=new NodeMethod(methodFrom);
+//                                nodePackageTo=new NodePackage(pathModuleTo);
+//                                nodePackageFrom=new NodePackage(pathModuleFrom);
+//                                nodeMethodFrom.setColor(nodePackageFrom.getColor());
+//                                nodePackageFrom.getMethods().add(nodeMethodFrom);
+//                                tempEdgePackage=new EdgePackage(nodePackageTo,nodePackageFrom);
+//                                temp.getListOfEdgePackage().add(tempEdgePackage);
+//
+//                                tempEdgeMethodPackage=new EdgeMethodPackage(nodePackageTo,nodeMethodFrom);
+//                                temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
                             }
-                            if(!contains)
-                            {
-                                tempEdgePackage=new EdgePackage(pathModuleTo,pathModuleFrom);
-                                temp.getListOfEdgePackage().add(tempEdgePackage);
 
-                                tempEdgeMethodPackage=new EdgeMethodPackage(pathModuleTo,methodFrom);
-                                temp.getListOfEdgeMethodPackage().add(tempEdgeMethodPackage);
-                            }
-
-                        }
+                       }
 
                     }
                 }
@@ -254,6 +344,7 @@ public class AnalyzeModules {
 //            temp.getListOfEdgePackage().forEach(x-> System.out.println(x.toString()));
 //            temp.getListOfEdgeMethodPackage().forEach(x-> System.out.println(x.toString()));
 //            temp.getListOfNodePackage().forEach(x-> System.out.println(x.toString()));
+
         return temp;
     }
 

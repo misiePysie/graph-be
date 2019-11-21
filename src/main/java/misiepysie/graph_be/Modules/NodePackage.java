@@ -9,6 +9,9 @@ public class NodePackage {
 
     private String name;
     private ArrayList<NodeMethod> methods=new ArrayList<>();
+
+
+
     private String color;
     private int size;
 
@@ -21,6 +24,7 @@ public class NodePackage {
         Colors[] tmpColors=Colors.values();
         int index = new Random().nextInt(tmpColors.length);
         this.color=tmpColors[index].toString();
+
     }
 
     public String getName() {
@@ -33,6 +37,13 @@ public class NodePackage {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setColorsForMethods()
+    {
+        this.getMethods().forEach(x->x.setColor(this.color));
+    }
+    public String getColor() {
+        return color;
     }
 
     @Override

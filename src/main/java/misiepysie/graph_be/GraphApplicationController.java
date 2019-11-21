@@ -135,8 +135,14 @@ public class GraphApplicationController {
 
             process.waitFor();
 
+
             AnalyzeModules.analyzeModule(System.getProperty("user.home")+"\\output.txt",temp);
 
+            temp.getListOfNodePackage().forEach(x-> System.out.println(x));
+            System.out.println("\n\n");
+            temp.getListOfEdgeMethodPackage().forEach(x-> System.out.println(x));
+            System.out.println("\n\n");
+            temp.getListOfEdgePackage().forEach(x-> System.out.println(x));
 
         }
 

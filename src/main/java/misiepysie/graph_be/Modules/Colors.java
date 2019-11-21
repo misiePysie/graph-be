@@ -42,7 +42,32 @@ public enum Colors {
         public String toString() {
             return super.toString();
         }
-    };
+    },
+    Violet {
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    },
+    Maroon{
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    },
+    Grey{
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    },
+    Coral{
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    }
+
 
 
 }

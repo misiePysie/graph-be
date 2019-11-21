@@ -1,11 +1,11 @@
 package misiepysie.graph_be.Modules;
 
 public class EdgePackage {
-    private  String to;
-    private  String from;
+    private  NodePackage to;
+    private  NodePackage from;
     private int weight=1; //weight jako suma wszystich weightow z modułow
 
-    public EdgePackage(String to, String from) {
+    public EdgePackage(NodePackage to, NodePackage from) {
         this.to = to;
         this.from = from;
         this.weight=1;
@@ -14,19 +14,19 @@ public class EdgePackage {
     public EdgePackage() {
     }
 
-    public String getTo() {
+    public NodePackage getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(NodePackage to) {
         this.to = to;
     }
 
-    public String getFrom() {
+    public NodePackage getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(NodePackage from) {
         this.from = from;
     }
 
@@ -41,7 +41,7 @@ public class EdgePackage {
     @Override
     public String toString() {
         return "EdgePackage{" +
-                "to='" + to + '\'' +
+                "to='" + to+ '\'' +
                 ", from='" + from + '\'' +
                 ", weight=" + weight +
                 '}';

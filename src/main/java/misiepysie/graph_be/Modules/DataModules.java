@@ -8,10 +8,14 @@ public class DataModules {
     private  ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage=new ArrayList<>();
     private  ArrayList<EdgePackage> listOfEdgePackage =new ArrayList<EdgePackage>();
 
+
+
+
     public DataModules(ArrayList<NodePackage> ListOfNodePackage,ArrayList<EdgeMethodPackage> listOfEdgeMethodPackage,ArrayList<EdgePackage> listOfEdgePackage) {
     this.ListOfNodePackage=ListOfNodePackage;
     this.listOfEdgeMethodPackage=listOfEdgeMethodPackage;
     this.listOfEdgePackage=listOfEdgePackage;
+
     }
 
 
