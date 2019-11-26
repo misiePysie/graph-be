@@ -30,7 +30,7 @@ public class NodeMethod {
         return "NodeMethod{" +
                 "name='" + name + '\'' +
                 ", size=" + size +
-                ", color=" + color +
+             //   ", color=" + color +
                 '}';
     }
 }

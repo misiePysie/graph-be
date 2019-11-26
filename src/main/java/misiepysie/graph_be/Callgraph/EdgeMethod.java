@@ -1,37 +1,38 @@
 package misiepysie.graph_be.Callgraph;
 
 public class EdgeMethod {
-    private  String to;
-    private  String from;
+    private  NodeMethod to;
+    private  NodeMethod from;
     private int weight;
 
-    public EdgeMethod(String to,String from) {
+    public EdgeMethod(NodeMethod to,NodeMethod from) {
         this.to=to;
         this.from=from;
+        this.weight=1;
     }
 
-    public EdgeMethod(String to, String from, int weight) {
+    public EdgeMethod(NodeMethod to, NodeMethod from, int weight) {
         this.to = to;
         this.from = from;
         this.weight = weight;
     }
 
-    public String getTo() {
+    public NodeMethod getTo() {
         return to;
     }
 
-    public String getFrom() {
+    public NodeMethod getFrom() {
         return from;
     }
 
     public EdgeMethod() {
     }
 
-    public void setTo(String to) {
+    public void setTo(NodeMethod to) {
         this.to = to;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(NodeMethod from) {
         this.from = from;
     }
 
@@ -42,7 +43,7 @@ public class EdgeMethod {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-//todo: dodac weight do toStringa
+
     @Override
     public String toString() {
       return  "{\"to\":\""+this.to+"\",\"from\":\""+this.from+"\",\"weight\":"+this.weight +"}";

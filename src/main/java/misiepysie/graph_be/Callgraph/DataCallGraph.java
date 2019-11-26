@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class DataCallGraph {
 
-    private static ArrayList<String> methodsToArray=new ArrayList<String>();
-    private static ArrayList<String> methodsFromArray=new ArrayList<String>();
-    private static ArrayList<EdgeMethod> edgesOfMethods=new ArrayList<EdgeMethod>();
+    private  ArrayList<NodeMethod> methodsToArray=new ArrayList<NodeMethod>();
+    private  ArrayList<NodeMethod> methodsFromArray=new ArrayList<NodeMethod>();
+    private  ArrayList<EdgeMethod> edgesOfMethods=new ArrayList<EdgeMethod>();
 
-    public DataCallGraph(ArrayList<String> methodsToArray, ArrayList<String> methodsFromArray, ArrayList<EdgeMethod> edgesOfMethods) {
+    public DataCallGraph(ArrayList<NodeMethod> methodsToArray, ArrayList<NodeMethod> methodsFromArray, ArrayList<EdgeMethod> edgesOfMethods) {
         this.methodsToArray=methodsToArray;
         this.methodsFromArray=methodsFromArray;
         this.edgesOfMethods=edgesOfMethods;
@@ -18,28 +18,28 @@ public class DataCallGraph {
 
 
 
-    public static ArrayList<EdgeMethod> getEdgesOfMethods() {
+    public  ArrayList<EdgeMethod> getEdgesOfMethods() {
         return edgesOfMethods;
     }
 
-    public static ArrayList<String> getMethodsToArray() {
+    public  ArrayList<NodeMethod> getMethodsToArray() {
         return methodsToArray;
     }
 
-    public static ArrayList<String> getMethodsFromArray() {
+    public  ArrayList<NodeMethod> getMethodsFromArray() {
         return methodsFromArray;
     }
 
-    public static void setMethodsToArray(ArrayList<String> methodsToArray) {
-        DataCallGraph.methodsToArray = methodsToArray;
+    public  void setMethodsToArray(ArrayList<NodeMethod> methodsToArray) {
+        methodsToArray = methodsToArray;
     }
 
-    public static void setMethodsFromArray(ArrayList<String> methodsFromArray) {
-        DataCallGraph.methodsFromArray = methodsFromArray;
+    public  void setMethodsFromArray(ArrayList<NodeMethod> methodsFromArray) {
+        methodsFromArray = methodsFromArray;
     }
 
-    public static void setEdgesOfMethods(ArrayList<EdgeMethod> edgesOfMethods) {
-        DataCallGraph.edgesOfMethods = edgesOfMethods;
+    public  void setEdgesOfMethods(ArrayList<EdgeMethod> edgesOfMethods) {
+        edgesOfMethods = edgesOfMethods;
     }
 
     @Override

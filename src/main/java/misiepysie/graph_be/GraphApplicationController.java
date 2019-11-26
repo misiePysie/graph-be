@@ -1,10 +1,7 @@
 package misiepysie.graph_be;
 
 import com.google.gson.Gson;
-import misiepysie.graph_be.Callgraph.AnalyzeCalls;
-import misiepysie.graph_be.Callgraph.DataCallGraph;
-import misiepysie.graph_be.Callgraph.EdgeMethod;
-import misiepysie.graph_be.Callgraph.Path;
+import misiepysie.graph_be.Callgraph.*;
 import misiepysie.graph_be.Data.Data;
 import misiepysie.graph_be.Data.DataApi;
 import misiepysie.graph_be.Data.DirectoryPath;
@@ -78,16 +75,16 @@ public class GraphApplicationController {
             Gson gson = new Gson();
 
            Path tempPath = gson.fromJson(path, Path.class);
-           ArrayList<String> tempToMethods = new ArrayList<String>();
-           ArrayList<String> tempFromMethods = new ArrayList<String>();
+           ArrayList<NodeMethod> tempToMethods = new ArrayList<NodeMethod>();
+           ArrayList<NodeMethod> tempFromMethods = new ArrayList<NodeMethod>();
            ArrayList<EdgeMethod> tempEdgeMethod = new ArrayList<EdgeMethod>();
 
             DataCallGraph temp = new DataCallGraph(tempToMethods,tempFromMethods,tempEdgeMethod);
             try{
 
-                File output = new File(System.getProperty("user.home")+File.separator+"output.txt");
+                File output = new File(System.getProperty("user.home")+"\\output.txt");
 
-                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+File.separator+"javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
+                ProcessBuilder pb=new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\javacg-0.1-SNAPSHOT-static.jar",tempPath.getPath());
                 pb.redirectErrorStream(false);
                 pb.redirectOutput(output);
 
@@ -96,6 +93,11 @@ public class GraphApplicationController {
                 process.waitFor();
 
                 AnalyzeCalls.analyzeCallGraph(System.getProperty("user.home")+File.separator+"output.txt",temp);
+                temp.getMethodsToArray().forEach(x-> System.out.println(x));
+                System.out.println("\n\n");
+                temp.getMethodsFromArray().forEach(x-> System.out.println(x));
+                System.out.println("\n\n");
+                temp.getEdgesOfMethods().forEach(x-> System.out.println(x));
             }
 
             catch(InterruptedException e){
